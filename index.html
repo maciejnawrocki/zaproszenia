@@ -1,160 +1,57 @@
 <!DOCTYPE html>
 <html lang="pl">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Potwierdzenie obecności na weselu</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Zaproszenia ślubne</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        h1, h2 {
-            font-family: 'Playfair Display', serif;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2 { font-family: 'Playfair Display', serif; }
     </style>
 </head>
-
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-
-<div id="main-container" class="w-full max-w-lg mx-auto bg-white p-8 sm:p-12 rounded-xl shadow-lg text-center">
-
-    <!-- Loader, widoczny na początku -->
-    <div id="loader">
-        <h2 class="text-2xl font-bold text-gray-700">Wczytuję Twoje zaproszenie...</h2>
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mt-6"></div>
+<body class="bg-gray-100 min-h-screen">
+<nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a href="/zaproszenia/" class="text-xl font-bold text-gray-800 hover:text-gray-600 transition duration-300">
+                    🎊 Strona główna
+                </a>
+            </div>
+        </div>
     </div>
+</nav>
 
-    <!-- Formularz RSVP, początkowo ukryty -->
-    <div id="rsvp-form" class="hidden">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Serdecznie zapraszamy!</h1>
-        <p class="mt-4 text-lg text-gray-600">
-            Cieszymy się, że możemy Cię zaprosić na nasz ślub.
-        </p>
-        <div class="mt-8 mb-8 p-4 bg-rose-50 border border-rose-200 rounded-lg">
-            <p class="text-xl font-semibold text-rose-800" id="guest-name">Imię i nazwisko gościa</p>
+<div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+    <div class="w-full max-w-2xl mx-auto bg-white p-8 sm:p-12 rounded-xl shadow-lg text-center">
+        <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-6">Witamy na naszej stronie weselnej!</h1>
+
+        <div class="mt-8 mb-8 p-6 bg-rose-50 border border-rose-200 rounded-lg">
+            <p class="text-lg text-gray-700 mb-4">
+                Serdecznie zapraszamy do odwiedzenia naszej strony z zaproszeniami na wesele.
+            </p>
+            <p class="text-gray-600">
+                Jeśli otrzymałeś spersonalizowany kod QR w zaproszeniu, zeskanuj go, aby potwierdzić swoją obecność.
+            </p>
         </div>
 
-        <p class="text-gray-700 mb-6">Prosimy o potwierdzenie swojej obecności:</p>
-
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <button onclick="sendRsvp('Tak, będę!')" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                Będę na pewno!
-            </button>
-            <button onclick="sendRsvp('Niestety, nie mogę')" class="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                Nie dam rady
-            </button>
+        <div class="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Jak to działa?</h2>
+            <div class="text-left space-y-3">
+                <p class="text-gray-700"><span class="font-semibold">1.</span> Otrzymasz od nas zaproszenie z unikalnym kodem QR</p>
+                <p class="text-gray-700"><span class="font-semibold">2.</span> Zeskanuj kod QR, aby zobaczyć swoje zaproszenie</p>
+                <p class="text-gray-700"><span class="font-semibold">3.</span> Potwierdź swoją obecność jednym kliknięciem</p>
+            </div>
         </div>
-        <p id="current-status" class="mt-4 text-sm text-gray-500"></p>
-    </div>
 
-    <!-- Komunikat o sukcesie/błędzie, początkowo ukryty -->
-    <div id="message-container" class="hidden">
-        <h2 id="message-title" class="text-2xl font-bold"></h2>
-        <p id="message-text" class="mt-2 text-gray-600"></p>
+        <div class="mt-8">
+            <p class="text-sm text-gray-500">W razie pytań lub problemów, skontaktuj się z nami bezpośrednio.</p>
+        </div>
     </div>
-
 </div>
-
-<script>
-    //////////////// --- KONFIGURACJA --- ///////////////////
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrLB19b-pO1O4pt0ZTHjUX805SmPHhb1OP3i_06GSEXTVzXTXxTcMyei6RT0lJa0s/exec';
-    ////////////////////////////////////////////////////////
-
-    const loader = document.getElementById('loader');
-    const rsvpForm = document.getElementById('rsvp-form');
-    const messageContainer = document.getElementById('message-container');
-    const messageTitle = document.getElementById('message-title');
-    const messageText = document.getElementById('message-text');
-    const guestNameEl = document.getElementById('guest-name');
-    const currentStatusEl = document.getElementById('current-status');
-
-    // Funkcja do pokazywania wiadomości
-    function showMessage(title, text, isError = false) {
-        loader.classList.add('hidden');
-        rsvpForm.classList.add('hidden');
-        messageContainer.classList.remove('hidden');
-        messageTitle.textContent = title;
-        messageText.textContent = text;
-        messageTitle.className = isError ? 'text-2xl font-bold text-red-600' : 'text-2xl font-bold text-green-600';
-    }
-
-    // Funkcja wywoływana po załadowaniu strony
-    window.onload = async () => {
-        const params = new URLSearchParams(window.location.search);
-        const guestId = params.get('id');
-
-        if (!guestId) {
-            showMessage('Błąd', 'Nie znaleziono identyfikatora gościa w adresie URL.', true);
-            return;
-        }
-
-        if (!SCRIPT_URL || SCRIPT_URL === 'TUTAJ_WKLEJ_URL_DO_WEB_APP') {
-             showMessage('Błąd Konfiguracji', 'Proszę skonfigurować adres URL skryptu w pliku HTML.', true);
-            return;
-        }
-
-        try {
-            // Wywołanie GET do skryptu, aby pobrać dane gościa
-            const response = await fetch(`${SCRIPT_URL}?id=${guestId}`);
-            const result = await response.json();
-
-            if (result.status === 'success') {
-                const guest = result.data;
-                guestNameEl.textContent = `${guest.firstName} ${guest.lastName}`;
-                if(guest.confirmation) {
-                    currentStatusEl.textContent = `Twoja obecna odpowiedź: ${guest.confirmation}`;
-                }
-
-                // Pokazujemy formularz, ukrywamy loader
-                loader.classList.add('hidden');
-                rsvpForm.classList.remove('hidden');
-            } else {
-                showMessage('Błąd', result.message, true);
-            }
-        } catch (error) {
-            showMessage('Błąd sieci', 'Nie można połączyć się z serwerem. Sprawdź połączenie z internetem.', true);
-        }
-    };
-
-    // Funkcja do wysyłania odpowiedzi RSVP
-    async function sendRsvp(attendingStatus) {
-        const params = new URLSearchParams(window.location.search);
-        const guestId = params.get('id');
-
-        // Pokaż loader podczas wysyłania
-        loader.classList.remove('hidden');
-        rsvpForm.classList.add('hidden');
-
-        try {
-            // Wywołanie POST do skryptu
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Ważne przy prostych POST do Google Scripts
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: guestId,
-                    attending: attendingStatus,
-                }),
-            });
-
-            // Ze względu na 'no-cors', nie możemy odczytać odpowiedzi,
-            // więc zakładamy sukces i po prostu pokazujemy komunikat.
-            // Google Apps Script wykona swoje zadanie po stronie serwera.
-            showMessage('Dziękujemy!', 'Twoja odpowiedź została zapisana. Do zobaczenia!');
-
-        } catch (error) {
-            // Ten blok może się nie wykonać przy 'no-cors', ale zostawiamy na wszelki wypadek
-             showMessage('Błąd', 'Wystąpił nieoczekiwany błąd podczas wysyłania odpowiedzi.', true);
-        }
-    }
-</script>
-
 </body>
 </html>

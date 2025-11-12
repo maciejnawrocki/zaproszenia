@@ -51,6 +51,20 @@
 
             <p class="text-gray-700 mb-6">Prosimy o potwierdzenie swojej obecności:</p>
 
+            <div class="text-left space-y-2 mb-6">
+                <label for="diet" class="font-medium text-gray-800">Preferencje żywieniowe</label>
+                <textarea id="diet" name="diet" class="w-full border border-gray-300 rounded-lg p-3" placeholder="np. wegetariańska, bez laktozy, alergie"></textarea>
+            </div>
+            <div class="text-left grid gap-2 mb-6">
+                <label class="inline-flex items-center gap-2">
+                    <input id="overnight" name="overnight" type="checkbox" class="h-4 w-4">
+                    <span>Chcę nocować po weselu</span>
+                </label>
+                <label class="inline-flex items-center gap-2">
+                    <input id="afterparty" name="afterparty" type="checkbox" class="h-4 w-4">
+                    <span>Zostaję na poprawiny</span>
+                </label>
+            </div>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <button onclick="sendRsvp('Tak, będę!')" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
                     Będę na pewno!
@@ -71,7 +85,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrLB19b-pO1O4pt0ZTHjUX805SmPHhb1OP3i_06GSEXTVzXTXxTcMyei6RT0lJa0s/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuk4-q7axiFZOyXNEH0RwjlsjgztoRu9iCeHk43YC_6aDQ78bkgKatiPhbId9nROA/exec';
 
     const loader = document.getElementById('loader');
     const rsvpForm = document.getElementById('rsvp-form');
@@ -80,6 +94,9 @@
     const messageText = document.getElementById('message-text');
     const guestNameEl = document.getElementById('guest-name');
     const currentStatusEl = document.getElementById('current-status');
+    const dietEl = document.getElementById('diet');
+    const overnightEl = document.getElementById('overnight');
+    const afterpartyEl = document.getElementById('afterparty');
 
     function showMessage(title, text, isError = false) {
       loader.classList.add('hidden');
@@ -99,7 +116,7 @@
         return;
       }
 
-      if (!SCRIPT_URL || SCRIPT_URL === 'TUTAJ_WKLEJ_URL_DO_WEB_APP') {
+      if (!SCRIPT_URL) {
         showMessage('Błąd Konfiguracji', 'Proszę skonfigurować adres URL skryptu w pliku HTML.', true);
         return;
       }
@@ -109,25 +126,27 @@
         const result = await response.json();
 
         if (result.status === 'success') {
-          const guest = result.data;
-          guestNameEl.textContent = `${guest.firstName} ${guest.lastName}`;
-          if (guest.confirmation) {
-            currentStatusEl.textContent = `Twoja obecna odpowiedź: ${guest.confirmation}`;
-          }
+          const guest = result.guestData;
 
-                // Pokazujemy formularz, ukrywamy loader
+          guestNameEl.textContent = guest.name;
+
+          if (guest.confirmation) currentStatusEl.textContent = `Twoja obecna odpowiedź: ${guest.confirmation}`;
+          if (guest.diet) dietEl.value = guest.diet;
+          if (guest.overnight) overnightEl.checked = String(guest.overnight).toLowerCase() === 'tak';
+          if (guest.afterparty) afterpartyEl.checked = String(guest.afterparty).toLowerCase() === 'tak';
+
           loader.classList.add('hidden');
           rsvpForm.classList.remove('hidden');
         } else {
           showMessage('Błąd', result.message, true);
         }
       } catch (error) {
-        showMessage('Błąd sieci', 'Nie można połączyć się z serwerem. Sprawdź połączenie z internetem.', true);
+        showMessage('Błąd sieci', 'Nie można połączyć się z serwerem. Sprawdź połączenie z internetem.' + error, true);
       }
     };
 
     // Funkcja do wysyłania odpowiedzi RSVP
-    async function sendRsvp(attendingStatus) {
+    async function sendRsvp(chosen) {
       const params = new URLSearchParams(window.location.search);
       const guestId = params.get('id');
 
@@ -136,25 +155,21 @@
       rsvpForm.classList.add('hidden');
 
       try {
-            // Wywołanie POST do skryptu
-            const response = await fetch(SCRIPT_URL, {
+        // ZMIANA: wysyłamy 'confirmation' + nowe pola; pozostawiamy 'no-cors' jak wcześniej
+        await fetch(SCRIPT_URL, {
           method: 'POST',
-                mode: 'no-cors', // Ważne przy prostych POST do Google Scripts
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id: guestId,
-                    attending: attendingStatus,
+                    confirmation: chosen,
+                    diet: dietEl.value.trim(),
+                    overnight: overnightEl.checked ? 'Tak' : 'Nie',
+                    afterparty: afterpartyEl.checked ? 'Tak' : 'Nie'
                 }),
         });
-
-            // Ze względu na 'no-cors', nie możemy odczytać odpowiedzi,
-            // więc zakładamy sukces i po prostu pokazujemy komunikat.
-            // Google Apps Script wykona swoje zadanie po stronie serwera.
         showMessage('Dziękujemy!', 'Twoja odpowiedź została zapisana. Do zobaczenia!');
       } catch (error) {
-            // Ten blok może się nie wykonać przy 'no-cors', ale zostawiamy na wszelki wypadek
         showMessage('Błąd', 'Wystąpił nieoczekiwany błąd podczas wysyłania odpowiedzi.', true);
       }
     }

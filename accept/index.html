@@ -3,86 +3,156 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Potwierdzenie obecności na weselu</title>
+    <title>Potwierdzenie obecności - Klaudia & Maciej</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Import fontów zgodnych z index.html -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --main-green: #83977C;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--main-green);
+            background-color: #fdfbf7;
             background-image: url('../resources/wallpaper.webp');
             background-size: 400px auto;
-            background-repeat: repeat;      /* kafelkowanie w obu osiach */
-            background-position: top left;  /* opcjonalnie: punkt startowy */
+            background-repeat: repeat;
+            overflow-x: hidden;
+            font-size: 18px;
         }
-        h1, h2 { font-family: 'Playfair Display', serif; }
+
+        .header-font {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .italic-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+        }
+
+        h1, h2, h3 { font-family: 'Cinzel', serif; }
+
+        /* Styl przycisków */
+        .btn-primary {
+            background-color: var(--main-green);
+            color: white;
+            border: 1px solid var(--main-green);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: white;
+            color: var(--main-green);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--main-green);
+            border: 1px solid var(--main-green);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            background-color: var(--main-green);
+            color: white;
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-<nav class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex items-center">
-                <a href="/" class="text-xl font-bold text-gray-800 hover:text-gray-600 transition duration-300">
-                    🎊 Strona główna
-                </a>
-            </div>
-        </div>
+<body class="min-h-screen flex flex-col">
+
+<!-- Nawigacja -->
+<nav class="bg-white/95 backdrop-blur-md shadow-sm py-2 border-b border-gray-100 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 flex justify-center items-center">
+        <a href="/" class="block home-link">
+            <img src="../resources/logo_klaudia_maciej3.png" alt="Klaudia & Maciej" class="h-16 w-auto object-contain">
+        </a>
     </div>
 </nav>
 
-<div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
-    <div id="main-container" class="w-full max-w-lg mx-auto bg-white p-8 sm:p-12 rounded-xl shadow-lg text-center">
+<div class="flex-grow flex items-center justify-center py-12 px-4">
+    <div id="main-container" class="w-full max-w-lg mx-auto bg-white p-8 sm:p-12 rounded-[2rem] shadow-xl text-center border border-[#83977C]/10">
 
-    <!-- Loader, widoczny na początku -->
+        <!-- Loader -->
         <div id="loader">
-            <h2 class="text-2xl font-bold text-gray-700">Wczytuję Twoje zaproszenie...</h2>
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mt-6"></div>
+            <h2 class="text-2xl header-font text-[#83977C] mb-4">Wczytuję zaproszenie...</h2>
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#83977C] mx-auto"></div>
         </div>
 
-    <!-- Formularz RSVP, początkowo ukryty -->
+        <!-- Formularz RSVP -->
         <div id="rsvp-form" class="hidden">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Serdecznie zapraszamy!</h1>
-            <p class="mt-4 text-lg text-gray-600">Cieszymy się, że możemy Cię zaprosić na nasz ślub.</p>
-            <div class="mt-8 mb-8 p-4 bg-rose-50 border border-rose-200 rounded-lg">
-                <p class="text-xl font-semibold text-rose-800" id="guest-name">Imię i nazwisko gościa</p>
+            <p class="italic-text text-[#D4AF37] text-2xl mb-2">Witamy!</p>
+            <h1 class="text-3xl header-font text-[#83977C] mb-6">Potwierdzenie obecności</h1>
+
+            <div class="my-8 p-6 bg-[#faf9f6] border border-[#83977C]/20 rounded-lg">
+                <p class="text-sm uppercase tracking-widest text-[#83977C]/70 mb-2">Twój Gość</p>
+                <p class="text-2xl font-bold text-[#83977C] header-font" id="guest-name">...</p>
             </div>
 
-            <p class="text-gray-700 mb-6">Prosimy o potwierdzenie swojej obecności:</p>
+            <div class="text-left space-y-6 mb-8">
+                <div>
+                    <label for="diet" class="block font-bold text-[#83977C] header-font text-xs mb-2">Preferencje żywieniowe</label>
+                    <textarea id="diet" name="diet" class="w-full border border-[#83977C]/30 rounded-lg p-3 focus:outline-none focus:border-[#83977C] bg-[#faf9f6] text-[#83977C]" rows="3" placeholder="np. wegetariańska, bez laktozy, alergie"></textarea>
+                </div>
 
-            <div class="text-left space-y-2 mb-6">
-                <label for="diet" class="font-medium text-gray-800">Preferencje żywieniowe</label>
-                <textarea id="diet" name="diet" class="w-full border border-gray-300 rounded-lg p-3" placeholder="np. wegetariańska, bez laktozy, alergie"></textarea>
+                <div class="space-y-3">
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input id="overnight" name="overnight" type="checkbox" class="h-5 w-5 accent-[#83977C] border-gray-300 rounded">
+                        <span class="italic-text text-[#83977C] text-lg group-hover:text-[#6a7a63] transition">Chcę nocować po weselu</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input id="afterparty" name="afterparty" type="checkbox" class="h-5 w-5 accent-[#83977C] border-gray-300 rounded">
+                        <span class="italic-text text-[#83977C] text-lg group-hover:text-[#6a7a63] transition">Zostaję na poprawiny</span>
+                    </label>
+                </div>
             </div>
-            <div class="text-left grid gap-2 mb-6">
-                <label class="inline-flex items-center gap-2">
-                    <input id="overnight" name="overnight" type="checkbox" class="h-4 w-4">
-                    <span>Chcę nocować po weselu</span>
-                </label>
-                <label class="inline-flex items-center gap-2">
-                    <input id="afterparty" name="afterparty" type="checkbox" class="h-4 w-4">
-                    <span>Zostaję na poprawiny</span>
-                </label>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="sendRsvp('Tak, będę!')" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                    Będę na pewno!
+
+            <div class="flex flex-col gap-4 justify-center">
+                <button onclick="sendRsvp('Tak, będę!')" class="btn-primary py-3 px-8 rounded-full text-sm font-bold uppercase tracking-widest shadow-md">
+                    Potwierdzam przybycie
                 </button>
-                <button onclick="sendRsvp('Niestety, nie mogę')" class="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                    Nie dam rady
+                <button onclick="sendRsvp('Niestety, nie mogę')" class="btn-outline py-3 px-8 rounded-full text-sm font-bold uppercase tracking-widest">
+                    Niestety nie mogę
                 </button>
             </div>
-            <p id="current-status" class="mt-4 text-sm text-gray-500"></p>
+
+            <p id="current-status" class="mt-6 text-sm italic text-[#83977C]/70"></p>
         </div>
 
-    <!-- Komunikat o sukcesie/błędzie, początkowo ukryty -->
-        <div id="message-container" class="hidden">
-            <h2 id="message-title" class="text-2xl font-bold"></h2>
-            <p id="message-text" class="mt-2 text-gray-600"></p>
+        <!-- Komunikat o sukcesie/błędzie -->
+        <div id="message-container" class="hidden space-y-4">
+            <h2 id="message-title" class="text-3xl header-font mb-4"></h2>
+            <p id="message-text" class="italic-text text-xl text-[#83977C] leading-relaxed"></p>
+
+            <div class="pt-8">
+                <a href="/" class="inline-block btn-outline py-3 px-8 rounded-full text-xs font-bold uppercase tracking-widest no-underline home-link">
+                    Powrót do strony głównej
+                </a>
+            </div>
         </div>
+
+        <!-- Przycisk powrotu (widoczny w formularzu) -->
+        <div id="back-btn-container" class="mt-12 pt-6 border-t border-gray-100 hidden">
+            <a href="/" class="text-xs font-bold uppercase tracking-widest text-[#83977C]/60 hover:text-[#83977C] transition no-underline pb-1 border-b border-transparent hover:border-[#83977C] home-link">
+                &larr; Wróć do strony głównej
+            </a>
+        </div>
+
     </div>
 </div>
+
+<footer class="bg-[#83977C] text-white py-6 text-center mt-auto">
+    <p class="text-xs opacity-70 header-font">Klaudia & Maciej &copy; 2026</p>
+</footer>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuk4-q7axiFZOyXNEH0RwjlsjgztoRu9iCeHk43YC_6aDQ78bkgKatiPhbId9nROA/exec';
@@ -97,19 +167,38 @@
     const dietEl = document.getElementById('diet');
     const overnightEl = document.getElementById('overnight');
     const afterpartyEl = document.getElementById('afterparty');
+    const backBtnContainer = document.getElementById('back-btn-container');
+
+    // Funkcja aktualizująca linki powrotne
+    function updateHomeLinks(guestId) {
+        if (!guestId) return;
+        const homeLinks = document.querySelectorAll('.home-link');
+        homeLinks.forEach(link => {
+            // Dodajemy parametr id do linku, zachowując ewentualne inne parametry (jeśli by były, choć w href="/" raczej ich nie ma)
+            // Proste podejście:
+            link.href = `/?id=${guestId}`;
+        });
+    }
 
     function showMessage(title, text, isError = false) {
       loader.classList.add('hidden');
       rsvpForm.classList.add('hidden');
+      backBtnContainer.classList.add('hidden');
       messageContainer.classList.remove('hidden');
+
       messageTitle.textContent = title;
       messageText.textContent = text;
-      messageTitle.className = isError ? 'text-2xl font-bold text-red-600' : 'text-2xl font-bold text-green-600';
+      messageTitle.className = isError
+        ? 'text-3xl header-font text-red-800 mb-4'
+        : 'text-3xl header-font text-[#83977C] mb-4';
     }
 
     window.onload = async () => {
       const params = new URLSearchParams(window.location.search);
       const guestId = params.get('id');
+
+      // Zaktualizuj linki powrotne od razu, jeśli mamy ID
+      updateHomeLinks(guestId);
 
       if (!guestId) {
         showMessage('Błąd', 'Nie znaleziono identyfikatora gościa w adresie URL.', true);
@@ -117,7 +206,7 @@
       }
 
       if (!SCRIPT_URL) {
-        showMessage('Błąd Konfiguracji', 'Proszę skonfigurować adres URL skryptu w pliku HTML.', true);
+        showMessage('Błąd Konfiguracji', 'Proszę skonfigurować adres URL skryptu.', true);
         return;
       }
 
@@ -137,25 +226,24 @@
 
           loader.classList.add('hidden');
           rsvpForm.classList.remove('hidden');
+          backBtnContainer.classList.remove('hidden');
         } else {
-          showMessage('Błąd', result.message, true);
+          showMessage('Ups...', result.message, true);
         }
       } catch (error) {
-        showMessage('Błąd sieci', 'Nie można połączyć się z serwerem. Sprawdź połączenie z internetem.' + error, true);
+        showMessage('Błąd sieci', 'Nie można połączyć się z serwerem. Sprawdź połączenie z internetem.', true);
       }
     };
 
-    // Funkcja do wysyłania odpowiedzi RSVP
     async function sendRsvp(chosen) {
       const params = new URLSearchParams(window.location.search);
       const guestId = params.get('id');
 
-        // Pokaż loader podczas wysyłania
       loader.classList.remove('hidden');
       rsvpForm.classList.add('hidden');
+      backBtnContainer.classList.add('hidden');
 
       try {
-        // ZMIANA: wysyłamy 'confirmation' + nowe pola; pozostawiamy 'no-cors' jak wcześniej
         await fetch(SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -168,7 +256,7 @@
                     afterparty: afterpartyEl.checked ? 'Tak' : 'Nie'
                 }),
         });
-        showMessage('Dziękujemy!', 'Twoja odpowiedź została zapisana. Do zobaczenia!');
+        showMessage('Dziękujemy!', 'Twoja odpowiedź została pomyślnie zapisana. Czekamy na Ciebie!');
       } catch (error) {
         showMessage('Błąd', 'Wystąpił nieoczekiwany błąd podczas wysyłania odpowiedzi.', true);
       }

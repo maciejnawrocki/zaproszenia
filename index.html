@@ -3,61 +3,420 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Zaproszenia ślubne</title>
+    <title>Klaudia & Maciej - Zaproszenia ślubne</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
     <style>
+        /* Konfiguracja podstawowa */
+        :root {
+            --primary-gold: #D4AF37;
+            --main-green: #83977C;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--main-green);
+            background-color: #fdfbf7;
             background-image: url('../resources/wallpaper.webp');
             background-size: 400px auto;
-            background-repeat: repeat;      /* kafelkowanie w obu osiach */
-            background-position: top left;  /* opcjonalnie: punkt startowy */
+            background-repeat: repeat;
+            overflow-x: hidden;
+            font-size: 18px;
         }
-        h1, h2 { font-family: 'Playfair Display', serif; }
+
+        .header-font {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .italic-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; }
+
+        /* Styl przycisku */
+        .btn-primary {
+            background-color: var(--main-green);
+            color: white;
+            border: 1px solid var(--main-green);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background-color: white;
+            color: var(--main-green);
+        }
+
+        /* HERO / COUNTDOWN SECTION */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('resources/counter_background2.jpeg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.7);
+            z-index: -1;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        /* Licznik dni */
+        .countdown-item {
+            display: inline-block;
+            margin: 0 15px;
+            text-align: center;
+        }
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 400;
+            font-family: 'Cinzel', serif;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .countdown-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 8px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Mapa Google */
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: 0;
+            filter: grayscale(20%);
+        }
+
+        /* Organiczny kształt dla zdjęcia (Blob shape) */
+        .blob-image-container {
+            overflow: hidden;
+            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+            box-shadow: 10px 10px 30px rgba(131, 151, 124, 0.2);
+            transition: all 0.5s ease;
+        }
+        .blob-image-container:hover {
+            border-radius: 58% 42% 30% 70% / 55% 55% 45% 45%;
+        }
+
+        @media (max-width: 640px) {
+            .countdown-number { font-size: 2rem; }
+            .countdown-item { margin: 0 8px; }
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-<nav class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex items-center">
-                <a href="/" class="text-xl font-bold text-gray-800 hover:text-gray-600 transition duration-300">
-                    🎊 Strona główna
+<body>
+
+<!-- HERO SECTION -->
+<header class="hero-section">
+    <div class="hero-bg"></div>
+
+    <div class="relative z-10 px-4 animate-fade-in">
+        <p class="italic-text mb-6 text-white text-2xl">Pobieramy się</p>
+
+        <h1 class="text-4xl sm:text-6xl mb-2 drop-shadow-lg text-white header-font">Klaudia Dymnicka</h1>
+        <p class="italic-text text-white my-2">oraz</p>
+        <h1 class="text-4xl sm:text-6xl mb-8 drop-shadow-lg text-white header-font">Maciej Nawrocki</h1>
+
+        <div class="w-24 h-px bg-white/60 mx-auto mb-8"></div>
+
+        <p class="header-font text-xl sm:text-2xl mb-12 text-gray-100 drop-shadow-md">1 Sierpnia 2026</p>
+
+        <div id="countdown" class="flex justify-center flex-wrap gap-4 text-white">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">0</div>
+                <div class="countdown-label">Dni</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">0</div>
+                <div class="countdown-label">Godz</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">0</div>
+                <div class="countdown-label">Min</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">0</div>
+                <div class="countdown-label">Sek</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-indicator text-white cursor-pointer" onclick="document.getElementById('main-content').scrollIntoView({behavior: 'smooth'})">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </div>
+</header>
+
+<!-- GŁÓWNA TREŚĆ -->
+<main id="main-content" class="bg-white relative z-20 shadow-2xl -mt-4 rounded-t-[2rem]">
+
+    <!-- NAV -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm py-2 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 flex justify-center items-center">
+            <img src="resources/logo_klaudia_maciej3.png" alt="Klaudia & Maciej Logo" class="h-16 w-auto object-contain">
+        </div>
+    </nav>
+
+    <!-- SEKCJA: ZAPROSZENIE -->
+    <section class="py-24 px-4 text-center">
+        <div class="max-w-3xl mx-auto space-y-6">
+            <h2 class="text-3xl sm:text-4xl header-font text-[#83977C] mb-2">Klaudia Dymnicka</h2>
+            <p class="italic-text text-[#83977C]">oraz</p>
+            <h2 class="text-3xl sm:text-4xl header-font text-[#83977C] mb-12">Maciej Nawrocki</h2>
+            <p class="italic-text text-[#83977C] mb-8">z radością zapraszają</p>
+            <p class="italic-text text-[#83977C] max-w-xl mx-auto leading-relaxed">
+                na uroczystość zawarcia związku małżeńskiego<br>
+                oraz przyjęcie weselne
+            </p>
+            <div class="py-8"></div>
+            <h3 class="text-2xl sm:text-3xl header-font text-[#83977C] mb-2">Sobota, 1 Sierpnia 2026</h3>
+            <p class="italic-text text-[#83977C] text-xl">o godzinie 15:30</p>
+            <div class="py-4"></div>
+            <h3 class="text-2xl sm:text-3xl header-font text-[#83977C] mb-2">Leśny Dwór</h3>
+            <p class="italic-text text-[#83977C] text-xl">ul. Stefana Żeromskiego 15, Sulęczyno</p>
+        </div>
+    </section>
+
+    <!-- SEKCJA: NASZA HISTORIA ZE ZDJĘCIEM -->
+    <section class="py-24 px-4 bg-[#faf9f6]">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+
+                <div class="flex justify-center md:justify-end">
+                    <div class="blob-image-container w-full max-w-md aspect-[4/5]">
+                        <img src="resources/image1.jpeg" alt="Nasza historia" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <div class="text-center md:text-left space-y-6">
+                    <h2 class="text-3xl header-font text-[#83977C] mb-4">Liczymy na Waszą obecność!</h2>
+
+                    <p class="italic-text text-[#83977C] text-xl leading-relaxed">
+                        „Jedno jest w życiu szczęście – kochać i być kochanym.”
+                    </p>
+                    <p class="text-sm uppercase tracking-widest text-[#83977C] mb-8">– George Sand</p>
+
+                    <div class="w-16 h-px bg-[#83977C]/30 mx-auto md:mx-0 my-8"></div>
+
+                    <p class="italic-text text-[#83977C] text-lg leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: PLAN DNIA (ZAKTUALIZOWANA) -->
+    <section class="py-20 px-4 bg-white text-center">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl header-font text-[#83977C] mb-16">Plan Dnia</h2>
+            <div class="relative">
+                <div class="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-[#83977C]/20 -z-10 transform -translate-y-1/2"></div>
+
+                <div class="flex flex-wrap justify-center gap-8 lg:gap-0">
+                    <!-- Element 1 -->
+                    <div class="bg-white p-4 w-full sm:w-1/2 lg:w-1/6">
+                        <div class="w-16 h-16 mx-auto bg-[#83977C] text-white rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">🗝️</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg">13:00</h3>
+                        <p class="italic-text text-[#83977C] text-base">Zameldowanie</p>
+                    </div>
+                    <!-- Element 2 -->
+                    <div class="bg-white p-4 w-full sm:w-1/2 lg:w-1/6">
+                        <div class="w-16 h-16 mx-auto bg-[#83977C] text-white rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">🍸</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg">14:30</h3>
+                        <p class="italic-text text-[#83977C] text-base">Aperitif w ogrodzie</p>
+                    </div>
+                    <!-- Element 3 -->
+                    <div class="bg-white p-4 w-full sm:w-1/2 lg:w-1/6">
+                        <div class="w-16 h-16 mx-auto bg-[#83977C] text-white rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">💍</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg">15:30</h3>
+                        <p class="italic-text text-[#83977C] text-base">Ceremonia</p>
+                    </div>
+                    <!-- Element 4 -->
+                    <div class="bg-white p-4 w-full sm:w-1/2 lg:w-1/6">
+                        <div class="w-16 h-16 mx-auto bg-[#83977C] text-white rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">🥂</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg">16:30</h3>
+                        <p class="italic-text text-[#83977C] text-base">Życzenia</p>
+                    </div>
+                    <!-- Element 5 -->
+                    <div class="bg-white p-4 w-full sm:w-1/2 lg:w-1/6">
+                        <div class="w-16 h-16 mx-auto bg-[#83977C] text-white rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">🍽️</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg">17:30</h3>
+                        <p class="italic-text text-[#83977C] text-base">Obiad</p>
+                    </div>
+                    <!-- Element 6 -->
+                    <div class="bg-white p-4 w-full sm:w-1/2 lg:w-1/6">
+                        <div class="w-16 h-16 mx-auto bg-[#83977C] text-white rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">💃</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg">19:00</h3>
+                        <p class="italic-text text-[#83977C] text-base">Zabawa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: PREZENTY -->
+    <section class="py-20 px-4 bg-[#faf9f6] text-center">
+        <div class="max-w-2xl mx-auto">
+            <div class="w-12 h-12 mx-auto text-[#D4AF37] text-4xl mb-6">🎁</div>
+            <h2 class="text-3xl header-font text-[#83977C] mb-8">Prezenty</h2>
+
+            <div class="p-8 border border-[#83977C]/20 rounded-lg bg-white shadow-sm">
+                <p class="italic-text text-[#83977C] text-lg leading-relaxed mb-2">
+                    "Aby ulżyć Wam w dręce<br>
+                    co za paczkę dać w nam w ręce,<br>
+                    podpowiadam: w naszym guście<br>
+                    leży bilet w rejony puste."
+                </p>
+                <div class="my-4 w-8 h-px bg-[#83977C]/30 mx-auto"></div>
+                <p class="italic-text text-[#83977C] text-lg leading-relaxed">
+                    Jeśli chcecie nas obdarować, będziemy wdzięczni za<br>
+                    <strong>drobny upominek w kopercie</strong>,<br>
+                    który pomoże nam spełnić marzenia o podróży poślubnej.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: MAPA GOOGLE -->
+    <section class="w-full bg-gray-50">
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2335.4762867117786!2d17.77113937698906!3d54.23098097256112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46fd645505845001%3A0x9f072f4624851664!2sLe%C5%9Bny%20Dw%C3%B3r%20Sul%C4%99czyno!5e0!3m2!1spl!2spl!4v1710000000000!5m2!1spl!2spl" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <!-- SEKCJA: INSTRUKCJA QR (ZMODYFIKOWANA LOGIKĄ JS) -->
+    <section class="py-16 px-4 border-t border-[#83977C]/20 bg-white text-center" id="rsvp-section">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-xl header-font text-[#83977C] mb-8">Potwierdzenie Obecności</h2>
+
+            <!-- WERSJA DOMYŚLNA: KROKI -->
+            <div id="rsvp-steps" class="grid md:grid-cols-3 gap-8 text-left">
+                <div class="text-center md:text-left">
+                    <h2 class="text-sm header-font text-[#83977C] mb-2">Krok 1</h2>
+                    <p class="italic-text text-[#83977C] text-lg leading-relaxed">Otrzymasz zaproszenie z kodem QR.</p>
+                </div>
+                <div class="text-center md:text-left">
+                    <h2 class="text-sm header-font text-[#83977C] mb-2">Krok 2</h2>
+                    <p class="italic-text text-[#83977C] text-lg leading-relaxed">Zeskanuj kod telefonem.</p>
+                </div>
+                <div class="text-center md:text-left">
+                    <h2 class="text-sm header-font text-[#83977C] mb-2">Krok 3</h2>
+                    <p class="italic-text text-[#83977C] text-lg leading-relaxed">Potwierdź obecność online.</p>
+                </div>
+            </div>
+
+            <!-- WERSJA Z ID: PRZYCISK -->
+            <div id="rsvp-direct-btn" class="hidden">
+                <p class="italic-text text-[#83977C] text-lg mb-8">Kliknij poniżej, aby potwierdzić swoją obecność.</p>
+                <a href="#" id="rsvp-link" class="btn-primary py-4 px-10 rounded-full text-sm font-bold uppercase tracking-widest shadow-lg">
+                    Przejdź do potwierdzenia zaproszenia
                 </a>
             </div>
-        </div>
-    </div>
-</nav>
 
-<div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
-    <div class="w-full max-w-2xl mx-auto bg-white p-8 sm:p-12 rounded-xl shadow-lg text-center">
-        <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-6">Witamy na naszej stronie weselnej!</h1>
-
-        <div class="mt-8 mb-8 p-6 bg-rose-50 border border-rose-200 rounded-lg">
-            <p class="text-lg text-gray-700 mb-4">
-                Serdecznie zapraszamy do odwiedzenia naszej strony z zaproszeniami na wesele.
-            </p>
-            <p class="text-gray-600">
-                Jeśli otrzymałeś spersonalizowany kod QR w zaproszeniu, zeskanuj go, aby potwierdzić swoją obecność.
-            </p>
         </div>
+    </section>
 
-        <div class="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Jak to działa?</h2>
-            <div class="text-left space-y-3">
-                <p class="text-gray-700"><span class="font-semibold">1.</span> Otrzymasz od nas zaproszenie z unikalnym kodem QR</p>
-                <p class="text-gray-700"><span class="font-semibold">2.</span> Zeskanuj kod QR, aby zobaczyć swoje zaproszenie</p>
-                <p class="text-gray-700"><span class="font-semibold">3.</span> Potwierdź swoją obecność jednym kliknięciem</p>
-            </div>
-        </div>
+    <footer class="bg-[#83977C] text-white py-8 text-center">
+        <p class="text-sm opacity-80 font-serif">Klaudia & Maciej &copy; 2026</p>
+    </footer>
 
-        <div class="mt-8">
-            <p class="text-sm text-gray-500">W razie pytań lub problemów, skontaktuj się z nami bezpośrednio.</p>
-        </div>
-    </div>
-</div>
+</main>
+
+<script>
+    // LICZNIK CZASU
+    const weddingDate = new Date('August 1, 2026 15:30:00').getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+            document.getElementById("countdown").innerHTML = "<div class='text-2xl'>To już dziś!</div>";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = days;
+        document.getElementById("hours").innerText = hours;
+        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("seconds").innerText = seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // LOGIKA RSVP (KROKI vs PRZYCISK)
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const guestId = params.get('id');
+
+        const stepsContainer = document.getElementById('rsvp-steps');
+        const btnContainer = document.getElementById('rsvp-direct-btn');
+        const rsvpLink = document.getElementById('rsvp-link');
+
+        if (guestId) {
+            // Mamy ID -> ukryj kroki, pokaż przycisk
+            stepsContainer.classList.add('hidden');
+            btnContainer.classList.remove('hidden');
+
+            // Ustaw link z zachowaniem ID
+            rsvpLink.href = `/accept/index.html?id=${guestId}`;
+        } else {
+            // Brak ID -> pokaż kroki (domyślnie są widoczne, ale dla pewności)
+            stepsContainer.classList.remove('hidden');
+            btnContainer.classList.add('hidden');
+        }
+    });
+</script>
 </body>
 </html>

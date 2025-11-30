@@ -18,17 +18,18 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Zapobiega zasłanianiu nagłówków przez menu po kliknięciu */
         }
 
         body {
             font-family: 'Cormorant Garamond', serif;
             color: var(--main-green);
             background-color: #fdfbf7;
-            background-image: url('../resources/wallpaper.webp');
+            background-image: url('../resources/wallpaper.webp'); /* Upewnij się, że ścieżka jest poprawna */
             background-size: 400px auto;
             background-repeat: repeat;
             overflow-x: hidden;
-            font-size: 19px; /* Nieznacznie powiększony tekst dla czytelności */
+            font-size: 19px;
         }
 
         .header-font {
@@ -62,6 +63,18 @@
             color: var(--main-green);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(131, 151, 124, 0.3);
+        }
+
+        /* Menu mobilne animacja */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
         }
 
         /* HERO / COUNTDOWN SECTION */
@@ -193,7 +206,7 @@
 <body>
 
 <!-- HERO SECTION -->
-<header class="hero-section">
+<header class="hero-section" id="home">
     <div class="hero-bg"></div>
 
     <div class="relative z-10 px-4 animate-fade-in">
@@ -237,10 +250,47 @@
 <!-- GŁÓWNA TREŚĆ -->
 <main id="main-content" class="bg-white relative z-20 shadow-2xl -mt-4 rounded-t-[2rem]">
 
-    <!-- NAV -->
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm py-3 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 flex justify-center items-center">
-            <img src="resources/logo_klaudia_maciej3.png" alt="Klaudia & Maciej Logo" class="h-16 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity">
+    <!-- NAV BAR (ZMODYFIKOWANY) -->
+    <nav class="sticky top-0 z-50 bg-white/98 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+
+                <!-- Logo Sekcja (Lewa strona) -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <img src="resources/logo_klaudia_maciej3.png" alt="Klaudia & Maciej Logo" class="h-12 w-auto sm:h-16 hover:opacity-80 transition-opacity">
+                </div>
+
+                <!-- Desktop Menu (Prawa strona - widoczne tylko na dużych ekranach) -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#venue" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Lokalizacja</a>
+                    <a href="#schedule" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Plan Dnia</a>
+                    <a href="#poprawiny" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Poprawiny</a>
+                    <a href="#info" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Info</a>
+                    <a href="#rsvp-section" class="btn-primary py-2 px-6 text-xs font-bold uppercase tracking-widest border border-[#83977C]">RSVP</a>
+                </div>
+
+                <!-- Mobile Menu Button (Widoczne tylko na małych ekranach) -->
+                <div class="flex md:hidden">
+                    <button onclick="toggleMenu()" type="button" class="text-[#83977C] hover:text-[#D4AF37] focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Otwórz menu</span>
+                        <!-- Ikona hamburgera -->
+                        <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel (Rozwijane menu) -->
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0">
+            <div class="px-4 pt-2 pb-8 space-y-1 flex flex-col items-center">
+                <a href="#venue" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Lokalizacja</a>
+                <a href="#schedule" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Plan Dnia</a>
+                <a href="#poprawiny" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Poprawiny</a>
+                <a href="#info" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Info</a>
+                <a href="#rsvp-section" onclick="toggleMenu()" class="block w-full text-center px-3 py-4 text-[#D4AF37] header-font font-bold tracking-widest text-lg mt-2">Potwierdź przybycie</a>
+            </div>
         </div>
     </nav>
 
@@ -266,8 +316,8 @@
         </div>
     </section>
 
-    <!-- SEKCJA: MIEJSCE (LEŚNY DWÓR) - NOWOŚĆ -->
-    <section class="py-20 px-4 bg-white">
+    <!-- SEKCJA: MIEJSCE (LEŚNY DWÓR) - ID DODANE -->
+    <section id="venue" class="py-20 px-4 bg-white scroll-mt-24">
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
@@ -296,11 +346,10 @@
         </div>
     </section>
 
-    <!-- SEKCJA: NASZA HISTORIA (ZMODYFIKOWANA) -->
+    <!-- SEKCJA: NASZA HISTORIA -->
     <section class="py-24 px-4 bg-[#faf9f6]">
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-16 items-center">
-
                 <div class="space-y-8 text-center md:text-right">
                     <h2 class="text-3xl header-font text-[#83977C]">Nasza Historia</h2>
                     <div class="italic-text text-[#83977C] text-xl leading-relaxed space-y-4">
@@ -314,11 +363,9 @@
 
                 <div class="flex justify-center md:justify-start">
                     <div class="blob-image-container w-full max-w-md aspect-[4/5]">
-                        <!-- Używamy image1 jako zdjęcia pary -->
                         <img src="resources/image1.jpeg" alt="Klaudia i Maciej" class="w-full h-full object-cover">
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -332,49 +379,52 @@
         </div>
     </div>
 
-    <!-- SEKCJA: PLAN DNIA -->
-    <section class="py-24 px-4 bg-white text-center">
+    <!-- SEKCJA: PLAN DNIA (ZMODYFIKOWANA SIATKA) -->
+    <section id="schedule" class="py-24 px-4 bg-white text-center scroll-mt-24">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl header-font text-[#83977C] mb-16">Plan Dnia - 1.08.2026</h2>
 
             <div class="relative max-w-5xl mx-auto">
-                <!-- Linia łącząca na desktopie -->
+                <!-- Linia pozioma (tylko na desktopie) -->
                 <div class="hidden lg:block absolute top-[50px] left-0 w-full h-px bg-[#83977C]/30 -z-10"></div>
+                <!-- Linia pionowa (opcjonalnie na mobile, tutaj brak dla czystszego wyglądu, grid załatwia sprawę) -->
 
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-4">
+                <!-- ZMIANA GRID: grid-cols-1 (mobile pionowo) -> lg:grid-cols-6 (komputer poziomo) -->
+                <div class="grid grid-cols-1 lg:grid-cols-6 gap-12 lg:gap-4">
+
                     <!-- Element 1 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300">🗝️</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🗝️</div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">13:00</h3>
                         <p class="italic-text text-gray-600">Zameldowanie</p>
                     </div>
                     <!-- Element 2 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300">🍸</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🍸</div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">14:30</h3>
                         <p class="italic-text text-gray-600">Aperitif</p>
                     </div>
                     <!-- Element 3 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300">💍</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">💍</div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">15:30</h3>
                         <p class="italic-text text-gray-600">Ceremonia</p>
                     </div>
                     <!-- Element 4 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300">🥂</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🥂</div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">16:30</h3>
                         <p class="italic-text text-gray-600">Życzenia</p>
                     </div>
                     <!-- Element 5 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300">🍽️</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🍽️</div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">17:30</h3>
                         <p class="italic-text text-gray-600">Obiad</p>
                     </div>
                     <!-- Element 6 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300">💃</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">💃</div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">19:00</h3>
                         <p class="italic-text text-gray-600">Zabawa</p>
                     </div>
@@ -383,8 +433,8 @@
         </div>
     </section>
 
-    <!-- SEKCJA: POPRAWINY (NOWA) -->
-    <section class="py-20 px-4 bg-[#fdfbf7] border-t border-[#83977C]/10">
+    <!-- SEKCJA: POPRAWINY - ID DODANE -->
+    <section id="poprawiny" class="py-20 px-4 bg-[#fdfbf7] border-t border-[#83977C]/10 scroll-mt-24">
         <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             <div class="text-center md:text-right space-y-4">
                 <h2 class="text-3xl header-font text-[#83977C]">Poprawiny</h2>
@@ -395,14 +445,13 @@
                 <p class="text-[#5a6e54] font-bold header-font mt-2">Start o godzinie 13:00</p>
             </div>
             <div class="h-64 md:h-80 rounded-tr-[4rem] rounded-bl-[4rem] overflow-hidden shadow-lg">
-                <!-- Używamy image4 dla klimatu grilla/imprezy -->
                 <img src="resources/image4.jpeg" alt="Poprawiny Grill" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
             </div>
         </div>
     </section>
 
-    <!-- SEKCJA: WARTO WIEDZIEĆ (Grid Info) - NOWOŚĆ -->
-    <section class="py-24 px-4 bg-white">
+    <!-- SEKCJA: WARTO WIEDZIEĆ - ID DODANE -->
+    <section id="info" class="py-24 px-4 bg-white scroll-mt-24">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl header-font text-[#83977C] mb-16 text-center">Warto Wiedzieć</h2>
 
@@ -455,7 +504,6 @@
 
                 <!-- Karta 6: Wypełniacz (Zdjęcie) -->
                 <div class="h-full min-h-[200px] rounded-lg overflow-hidden">
-                    <!-- Używamy image3 jako wypełniacza -->
                     <img src="resources/image3.jpeg" alt="Dekoracje" class="w-full h-full object-cover opacity-90 hover:scale-110 transition-transform duration-700">
                 </div>
 
@@ -463,13 +511,12 @@
         </div>
     </section>
 
-    <!-- SEKCJA: PREZENTY (ZAKTUALIZOWANA) -->
+    <!-- SEKCJA: PREZENTY -->
     <section class="py-24 px-4 bg-[#fdfbf7] text-center">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-3xl header-font text-[#83977C] mb-12">Prezenty</h2>
 
             <div class="grid md:grid-cols-2 gap-8">
-                <!-- Kwiaty -->
                 <div class="bg-white p-8 shadow-sm rounded-lg border-t-4 border-[#83977C]">
                     <div class="text-4xl mb-4">☕ / 🍷</div>
                     <h3 class="header-font font-bold text-[#83977C] mb-4 text-lg">Zamiast Kwiatów</h3>
@@ -478,7 +525,6 @@
                     </p>
                 </div>
 
-                <!-- Koperta -->
                 <div class="bg-white p-8 shadow-sm rounded-lg border-t-4 border-[#D4AF37]">
                     <div class="text-4xl mb-4">✈️</div>
                     <h3 class="header-font font-bold text-[#83977C] mb-4 text-lg">Podróż Poślubna</h3>
@@ -490,12 +536,10 @@
         </div>
     </section>
 
-    <!-- SEKCJA: LOKALIZACJA I MAPA (ZMODYFIKOWANA) -->
+    <!-- SEKCJA: LOKALIZACJA I MAPA -->
     <section class="py-20 px-4 bg-gray-50 border-t border-b border-[#83977C]/10">
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-center">
-
-                <!-- Kolumna 1: Szczegóły Adresu -->
                 <div class="text-center md:text-left space-y-6 order-2 md:order-1">
                     <h2 class="text-3xl header-font text-[#83977C]">Lokalizacja</h2>
 
@@ -524,7 +568,6 @@
                     </div>
                 </div>
 
-                <!-- Kolumna 2: Mapa (Mniejsza szerokość) -->
                 <div class="order-1 md:order-2 h-[400px] w-full rounded-xl overflow-hidden shadow-xl border border-[#83977C]/20 relative">
                     <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2335.4762867117786!2d17.77113937698906!3d54.23098097256112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46fd645505845001%3A0x9f072f4624851664!2sLe%C5%9Bny%20Dw%C3%B3r%20Sul%C4%99czyno!5e0!3m2!1spl!2spl!4v1710000000000!5m2!1spl!2spl"
@@ -534,18 +577,15 @@
                             referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
-
             </div>
         </div>
     </section>
 
-
     <!-- SEKCJA: RSVP -->
-    <section class="py-20 px-4 bg-white text-center" id="rsvp-section">
+    <section class="py-20 px-4 bg-white text-center scroll-mt-24" id="rsvp-section">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-2xl header-font text-[#83977C] mb-10 tracking-widest">Potwierdzenie Obecności</h2>
 
-            <!-- WERSJA DOMYŚLNA: KROKI -->
             <div id="rsvp-steps" class="grid md:grid-cols-3 gap-12 text-center">
                 <div>
                     <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">1</div>
@@ -561,14 +601,12 @@
                 </div>
             </div>
 
-            <!-- WERSJA Z ID: PRZYCISK -->
             <div id="rsvp-direct-btn" class="hidden">
                 <p class="italic-text text-[#83977C] text-lg mb-8">Kliknij poniżej, aby potwierdzić swoją obecność.</p>
                 <a href="#" id="rsvp-link" class="btn-primary py-4 px-10 text-sm font-bold uppercase tracking-widest shadow-lg">
                     Przejdź do potwierdzenia zaproszenia
                 </a>
             </div>
-
         </div>
     </section>
 
@@ -582,6 +620,16 @@
 </main>
 
 <script>
+    // OBSŁUGA MENU MOBILNEGO
+    function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        if (menu.classList.contains('open')) {
+            menu.classList.remove('open');
+        } else {
+            menu.classList.add('open');
+        }
+    }
+
     // LICZNIK CZASU
     const weddingDate = new Date('August 1, 2026 15:30:00').getTime();
 

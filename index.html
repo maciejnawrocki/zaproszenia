@@ -264,8 +264,8 @@
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="#venue" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Lokalizacja</a>
                     <a href="#schedule" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Plan Dnia</a>
-                    <a href="#poprawiny" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Poprawiny</a>
                     <a href="#info" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Info</a>
+                    <a href="#poprawiny" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Poprawiny</a>
                     <a href="#rsvp-section" class="btn-primary py-2 px-6 text-xs font-bold uppercase tracking-widest border border-[#83977C]">RSVP</a>
                 </div>
 
@@ -287,8 +287,8 @@
             <div class="px-4 pt-2 pb-8 space-y-1 flex flex-col items-center">
                 <a href="#venue" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Lokalizacja</a>
                 <a href="#schedule" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Plan Dnia</a>
-                <a href="#poprawiny" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Poprawiny</a>
                 <a href="#info" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Info</a>
+                <a href="#poprawiny" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Poprawiny</a>
                 <a href="#rsvp-section" onclick="toggleMenu()" class="block w-full text-center px-3 py-4 text-[#D4AF37] header-font font-bold tracking-widest text-lg mt-2">Potwierdź przybycie</a>
             </div>
         </div>
@@ -322,7 +322,7 @@
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
                     <div class="relative">
-                        <img src="resources/image2.jpeg" alt="Leśny Dwór" class="w-full h-[500px] object-cover arch-image shadow-2xl">
+                        <img src="resources/restauracja-bioli-trus-w-lesnym-dworze-w-suleczynie-piekny-palac-swietna-restauracja-na-kaszubach.webp" alt="Leśny Dwór" class="w-full h-[500px] object-cover arch-image shadow-2xl">
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6 text-center md:text-left">
@@ -346,32 +346,53 @@
         </div>
     </section>
 
-    <!-- SEKCJA: NASZA HISTORIA -->
-    <section class="py-24 px-4 bg-[#faf9f6]">
+    <!-- SEKCJA: LOKALIZACJA I MAPA -->
+    <section class="py-20 px-4 bg-gray-50 border-t border-b border-[#83977C]/10">
         <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div class="space-y-8 text-center md:text-right">
-                    <h2 class="text-3xl header-font text-[#83977C]">Nasza Historia</h2>
-                    <div class="italic-text text-[#83977C] text-xl leading-relaxed space-y-4">
-                        <p>„Jedno jest w życiu szczęście – kochać i być kochanym.”</p>
-                        <p class="text-sm uppercase tracking-widest text-[#D4AF37]">– George Sand</p>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left space-y-6 order-2 md:order-1">
+                    <h2 class="text-3xl header-font text-[#83977C]">Lokalizacja</h2>
+
+                    <div class="space-y-2">
+                        <h3 class="text-2xl font-serif text-[#D4AF37]">Leśny Dwór</h3>
+                        <p class="text-[#5a6e54] text-lg leading-relaxed">
+                            ul. Stefana Żeromskiego 15<br>
+                            83-320 Sulęczyno<br>
+                            Kaszuby
+                        </p>
                     </div>
-                    <p class="text-[#5a6e54] leading-loose">
-                        Każdy dzień to nowa strona naszej wspólnej opowieści. Dziękujemy, że jesteście jej częścią i że będziecie z nami w tym najważniejszym rozdziale.
+
+                    <div class="w-16 h-px bg-[#83977C]/30 mx-auto md:mx-0 my-6"></div>
+
+                    <p class="italic-text text-[#83977C] text-base">
+                        "Miejsce, gdzie natura spotyka się z historią,<br>
+                        a my spotkamy się z Wami."
                     </p>
+
+                    <div class="pt-4">
+                        <a href="https://www.google.com/maps/place/Le%C5%9Bny+Dw%C3%B3r/@54.2352237,17.7809513,353a,35y,0.69t/data=!3m2!1e3!5s0x46fdf4edbb7e7557:0xe6a98d03b2abd91f!4m10!3m9!1s0x46fdf4ed95ed89eb:0xe2f8d9d7aa8d885a!5m3!1s2025-11-30!4m1!1i2!8m2!3d54.2354656!4d17.7813172!16s%2Fg%2F1tq8h7kv?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
+                           target="_blank"
+                           class="btn-primary py-3 px-8 rounded-none text-xs font-bold uppercase tracking-widest inline-flex items-center gap-2">
+                            <span>📍</span> Jak dojechać
+                        </a>
+                    </div>
                 </div>
 
-                <div class="flex justify-center md:justify-start">
-                    <div class="blob-image-container w-full max-w-md aspect-[4/5]">
-                        <img src="resources/image1.jpeg" alt="Klaudia i Maciej" class="w-full h-full object-cover">
-                    </div>
+                <div class="order-1 md:order-2 h-[400px] w-full rounded-xl overflow-hidden shadow-xl border border-[#83977C]/20 relative">
+                    <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2335.4762867117786!2d17.77113937698906!3d54.23098097256112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46fd645505845001%3A0x9f072f4624851664!2sLe%C5%9Bny%20Dw%C3%B3r%20Sul%C4%99czyno!5e0!3m2!1spl!2spl!4v1710000000000!5m2!1spl!2spl"
+                            class="w-full h-full object-cover filter grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- PARALLAX SEPARATOR -->
-    <div class="parallax-divider" style="background-image: url('resources/image5.jpeg');">
+    <div class="parallax-divider" style="background-image: url('resources/image4.jpeg');">
         <div class="parallax-overlay flex items-center justify-center">
             <h2 class="text-4xl md:text-6xl header-font text-white drop-shadow-xl tracking-widest text-center px-4">
                 Świętujcie z nami
@@ -433,23 +454,6 @@
         </div>
     </section>
 
-    <!-- SEKCJA: POPRAWINY - ID DODANE -->
-    <section id="poprawiny" class="py-20 px-4 bg-[#fdfbf7] border-t border-[#83977C]/10 scroll-mt-24">
-        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div class="text-center md:text-right space-y-4">
-                <h2 class="text-3xl header-font text-[#83977C]">Poprawiny</h2>
-                <h3 class="text-xl font-serif text-[#D4AF37] italic">Grill Day - Niedziela, 2.08.2026</h3>
-                <p class="text-[#5a6e54] leading-relaxed">
-                    Chcielibyśmy przedłużyć wspólne świętowanie! Zapraszamy Was na luźne poprawiny przy grillu, muzyce i jeziorze.
-                </p>
-                <p class="text-[#5a6e54] font-bold header-font mt-2">Start o godzinie 13:00</p>
-            </div>
-            <div class="h-64 md:h-80 rounded-tr-[4rem] rounded-bl-[4rem] overflow-hidden shadow-lg">
-                <img src="resources/image4.jpeg" alt="Poprawiny Grill" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
-            </div>
-        </div>
-    </section>
-
     <!-- SEKCJA: WARTO WIEDZIEĆ - ID DODANE -->
     <section id="info" class="py-24 px-4 bg-white scroll-mt-24">
         <div class="max-w-7xl mx-auto">
@@ -462,7 +466,8 @@
                     <div class="text-4xl mb-4">🛏️</div>
                     <h3 class="header-font font-bold text-[#83977C] mb-3">Zakwaterowanie</h3>
                     <p class="text-sm text-[#5a6e54] leading-relaxed mb-4">
-                        Zapewniamy nocleg na miejscu w dniu wesela. Jeśli chcecie zostać dłużej, dajcie nam znać z wyprzedzeniem.
+                        Z myślą o Waszym komforcie, zapewniamy nocleg na miejscu w dniu wesela.</p>
+                    <p class="text-sm text-[#5a6e54] leading-relaxed mb-4">Jeśli chcielibyście przyjechać wcześniej lub zostać dłużej, bardzo prosimy, dajcie nam znać z wyprzedzeniem. Chętnie pomożemy w przedłużeniu rezerwacji.
                     </p>
                     <a href="https://lesnydwor.pl/pokoje" target="_blank" class="text-[#D4AF37] underline italic-text text-base hover:text-[#83977C]">Zobacz pokoje</a>
                 </div>
@@ -536,50 +541,68 @@
         </div>
     </section>
 
-    <!-- SEKCJA: LOKALIZACJA I MAPA -->
-    <section class="py-20 px-4 bg-gray-50 border-t border-b border-[#83977C]/10">
+    <!-- SEKCJA: NIEDZIELA (POPRAWINY + ŚNIADANIE) - ZMODYFIKOWANA -->
+    <section id="poprawiny" class="py-20 px-4 bg-[#fdfbf7] border-t border-[#83977C]/10 scroll-mt-24">
         <div class="max-w-6xl mx-auto">
+            <!-- Nagłówek sekcji -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl header-font text-[#83977C] mb-2">Niedziela</h2>
+                <h3 class="text-xl font-serif text-[#D4AF37] italic">2 Sierpnia 2026</h3>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="text-center md:text-left space-y-6 order-2 md:order-1">
-                    <h2 class="text-3xl header-font text-[#83977C]">Lokalizacja</h2>
 
-                    <div class="space-y-2">
-                        <h3 class="text-2xl font-serif text-[#D4AF37]">Leśny Dwór</h3>
-                        <p class="text-[#5a6e54] text-lg leading-relaxed">
-                            ul. Stefana Żeromskiego 15<br>
-                            83-320 Sulęczyno<br>
-                            Kaszuby
-                        </p>
+                <!-- Kolumna lewa: Harmonogram -->
+                <div class="space-y-12">
+
+                    <!-- Blok 1: Śniadanie -->
+                    <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-right gap-6 group cursor-default">
+                        <!-- Treść -->
+                        <div class="flex-1 order-2 md:order-1">
+                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">Regeneracyjne Śniadanie</h3>
+                            <p class="text-[#D4AF37] font-bold tracking-widest text-sm mb-3">08:00 - 11:00</p>
+                            <p class="text-[#5a6e54] leading-relaxed text-sm sm:text-base">
+                                Zanim rozjedziemy się do domów, spotkajmy się na wspólnym śniadaniu w hotelowej restauracji. Aromatyczna kawa i pyszne jedzenie postawią nas na nogi po szampańskiej zabawie!
+                            </p>
+                        </div>
+                        <!-- Grafika/Ikona -->
+                        <div class="order-1 md:order-2 w-16 h-16 bg-white rounded-full shadow-md border border-[#83977C]/30 flex items-center justify-center text-3xl shrink-0 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300 text-[#83977C]">
+                            ☕
+                        </div>
                     </div>
 
-                    <div class="w-16 h-px bg-[#83977C]/30 mx-auto md:mx-0 my-6"></div>
+                    <!-- Ozdobny separator -->
+                    <div class="w-24 h-px bg-[#83977C]/20 mx-auto md:ml-auto md:mr-8"></div>
 
-                    <p class="italic-text text-[#83977C] text-base">
-                        "Miejsce, gdzie natura spotyka się z historią,<br>
-                        a my spotkamy się z Wami."
-                    </p>
-
-                    <div class="pt-4">
-                        <a href="https://www.google.com/maps/place/Le%C5%9Bny+Dw%C3%B3r/@54.2352237,17.7809513,353a,35y,0.69t/data=!3m2!1e3!5s0x46fdf4edbb7e7557:0xe6a98d03b2abd91f!4m10!3m9!1s0x46fdf4ed95ed89eb:0xe2f8d9d7aa8d885a!5m3!1s2025-11-30!4m1!1i2!8m2!3d54.2354656!4d17.7813172!16s%2Fg%2F1tq8h7kv?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
-                           target="_blank"
-                           class="btn-primary py-3 px-8 rounded-none text-xs font-bold uppercase tracking-widest inline-flex items-center gap-2">
-                            <span>📍</span> Jak dojechać
-                        </a>
+                    <!-- Blok 2: Grill -->
+                    <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-right gap-6 group cursor-default">
+                        <!-- Treść -->
+                        <div class="flex-1 order-2 md:order-1">
+                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">Poprawiny - Grill</h3>
+                            <p class="text-[#D4AF37] font-bold tracking-widest text-sm mb-3">START 13:00</p>
+                            <p class="text-[#5a6e54] leading-relaxed text-sm sm:text-base">
+                                Chcemy nacieszyć się Wami trochę dłużej! Zapraszamy na luźne poprawiny w ogrodzie. Będzie grill, zimne napoje, leżaki i relaks nad brzegiem jeziora.
+                            </p>
+                        </div>
+                        <!-- Grafika/Ikona -->
+                        <div class="order-1 md:order-2 w-16 h-16 bg-white rounded-full shadow-md border border-[#D4AF37]/30 flex items-center justify-center text-3xl shrink-0 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+                            🍖
+                        </div>
                     </div>
+
                 </div>
 
-                <div class="order-1 md:order-2 h-[400px] w-full rounded-xl overflow-hidden shadow-xl border border-[#83977C]/20 relative">
-                    <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2335.4762867117786!2d17.77113937698906!3d54.23098097256112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46fd645505845001%3A0x9f072f4624851664!2sLe%C5%9Bny%20Dw%C3%B3r%20Sul%C4%99czyno!5e0!3m2!1spl!2spl!4v1710000000000!5m2!1spl!2spl"
-                            class="w-full h-full object-cover filter grayscale-[20%] hover:grayscale-0 transition-all duration-500"
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                <!-- Kolumna prawa: Zdjęcie -->
+                <div class="h-[500px] rounded-tl-[5rem] rounded-br-[5rem] overflow-hidden shadow-xl border-4 border-white relative group">
+                    <!-- Wykorzystujemy istniejące zdjęcie -->
+                    <img src="resources/image5.jpeg" alt="Niedzielny relaks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <!-- Delikatny gradient dla lepszego efektu -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#83977C]/30 to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-500"></div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- SEKCJA: RSVP -->
     <section class="py-20 px-4 bg-white text-center scroll-mt-24" id="rsvp-section">

@@ -777,30 +777,46 @@
         }
     });
 
-        // PSEUDO-3D FOTO Z DWÓCH WARSTW
+    // PSEUDO-3D FOTO Z DWÓCH WARSTW (scroll + ruch po ekranie)
     (function () {
         const container = document.getElementById('photo-3d');
         if (!container) return;
 
         const layers = Array.from(container.querySelectorAll('img'));
-        let scrollOffset = 0;
         let tiltX = 0;
         let tiltY = 0;
+        let scrollFactor = 0;
 
         function updateTransforms() {
             layers.forEach(layer => {
                 const depth = parseFloat(layer.dataset.depth || 0);
-                const tx = tiltX * depth * 15; // ruch poziomy
-                const ty = tiltY * depth * 15 + scrollOffset * depth * -0.2; // scroll = lekki ruch góra/dół
-                layer.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+                // scrollFactor: -1..1 (ile nad/pod środkiem ekranu)
+                const ty = scrollFactor * depth * -40; // im większy, tym mocniejsza paralaksa
+                const tx = tiltX * depth * 20;
+                const tyTilt = tiltY * depth * 20;
+                layer.style.transform = `translate3d(${tx}px, ${ty + tyTilt}px, 0)`;
             });
         }
 
-        // Ruch myszką / palcem (pozycja w obrębie kontenera)
+        // Scroll – działa też na mobile
+        function handleScroll() {
+            const rect = container.getBoundingClientRect();
+            const viewportH = window.innerHeight || document.documentElement.clientHeight;
+            const center = rect.top + rect.height / 2;
+            const dist = center - viewportH / 2;
+            // znormalizuj do ~ -1..1 (gdy sekcja jest w okolicach środka ekranu)
+            scrollFactor = Math.max(-1, Math.min(1, dist / (viewportH / 2)));
+            updateTransforms();
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleScroll);
+
+        // Ruch po ekranie (palec / myszka)
         function handlePointerMove(clientX, clientY) {
             const rect = container.getBoundingClientRect();
             const x = (clientX - rect.left) / rect.width;  // 0..1
-            const y = (clientY - rect.top) / rect.height; // 0..1
+            const y = (clientY - rect.top) / rect.height;
             tiltX = (x - 0.5); // -0.5..0.5
             tiltY = (y - 0.5);
             updateTransforms();
@@ -816,29 +832,8 @@
             }
         }, { passive: true });
 
-        // Scroll – lekka paralaksa
-        window.addEventListener('scroll', () => {
-            const rect = container.getBoundingClientRect();
-            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-            const center = rect.top + rect.height / 2;
-            const distanceFromCenter = center - viewportHeight / 2;
-            scrollOffset = distanceFromCenter / viewportHeight; // -1..1 mniej więcej
-            updateTransforms();
-        }, { passive: true });
-
-        // Device tilt (mobile) – jeśli dostępne
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', (event) => {
-                const gamma = event.gamma || 0; // lewo/prawo
-                const beta = event.beta || 0;   // góra/dół
-                tiltX = gamma / 45; // normalizacja ~ -1..1
-                tiltY = beta / 45;
-                updateTransforms();
-            }, true);
-        }
-
-        // Startowa pozycja
-        updateTransforms();
+        // Inicjalne ustawienie
+        handleScroll();
     })();
 </script>
 </body>

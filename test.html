@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Klaudia & Maciej - Zaproszenia ślubne</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap"
+          rel="stylesheet">
     <style>
         /* Konfiguracja podstawowa */
         :root {
@@ -190,6 +191,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 600px;          /* NOWE – wspólna wysokość */
         }
         .info-card:hover {
             transform: translateY(-5px);
@@ -200,6 +202,14 @@
             .countdown-number { font-size: 2rem; }
             .countdown-item { margin: 0 8px; }
             .parallax-divider { background-attachment: scroll; height: 250px; }
+        }
+        #photo-3d {
+            transform-style: preserve-3d;
+            touch-action: pan-y;
+        }
+        #photo-3d img {
+            transition: transform 0.15s ease-out;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -240,9 +250,10 @@
         </div>
     </div>
 
-    <div class="scroll-indicator text-white cursor-pointer" onclick="document.getElementById('main-content').scrollIntoView({behavior: 'smooth'})">
+    <div class="scroll-indicator text-white cursor-pointer"
+         onclick="document.getElementById('main-content').scrollIntoView({behavior: 'smooth'})">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
         </svg>
     </div>
 </header>
@@ -251,31 +262,43 @@
 <main id="main-content" class="bg-white relative z-20 shadow-2xl -mt-4 rounded-t-[2rem]">
 
     <!-- NAV BAR (ZMODYFIKOWANY) -->
-    <nav class="sticky top-0 z-50 bg-white/98 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300" id="navbar">
+    <nav class="sticky top-0 z-50 bg-white/98 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300"
+         id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
 
                 <!-- Logo Sekcja (Lewa strona) - ZMIANA: dodane h-full do kontenera i obrazka -->
                 <div class="flex-shrink-0 flex items-center cursor-pointer h-full" onclick="window.scrollTo(0,0)">
-                    <img src="resources/monogram%20KM.png" alt="Klaudia & Maciej Logo" class="h-full w-auto hover:opacity-80 transition-opacity p-1">
+                    <img src="resources/monogram%20KM.png" alt="Klaudia & Maciej Logo"
+                         class="h-full w-auto hover:opacity-80 transition-opacity p-1">
                 </div>
 
                 <!-- Desktop Menu (Prawa strona - widoczne tylko na dużych ekranach) -->
                 <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#venue" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Lokalizacja</a>
-                    <a href="#schedule" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Plan Dnia</a>
-                    <a href="#info" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Info</a>
-                    <a href="#poprawiny" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Poprawiny</a>
-                    <a href="#rsvp-section" class="btn-primary py-2 px-6 text-xs font-bold uppercase tracking-widest border border-[#83977C]">RSVP</a>
+                    <a href="#venue"
+                       class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Lokalizacja</a>
+                    <a href="#schedule"
+                       class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Plan
+                        Dnia</a>
+                    <a href="#info"
+                       class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Info</a>
+                    <a href="#poprawiny"
+                       class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Poprawiny</a>
+                    <a href="#rsvp-section"
+                       class="btn-primary py-2 px-6 text-xs font-bold uppercase tracking-widest border border-[#83977C]">RSVP</a>
                 </div>
 
                 <!-- Mobile Menu Button (Widoczne tylko na małych ekranach) -->
                 <div class="flex md:hidden">
-                    <button onclick="toggleMenu()" type="button" class="text-[#83977C] hover:text-[#D4AF37] focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
+                    <button onclick="toggleMenu()" type="button"
+                            class="text-[#83977C] hover:text-[#D4AF37] focus:outline-none p-2"
+                            aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Otwórz menu</span>
                         <!-- Ikona hamburgera -->
-                        <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
                 </div>
@@ -285,11 +308,18 @@
         <!-- Mobile Menu Panel (Rozwijane menu) -->
         <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0">
             <div class="px-4 pt-2 pb-8 space-y-1 flex flex-col items-center">
-                <a href="#venue" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Lokalizacja</a>
-                <a href="#schedule" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Plan Dnia</a>
-                <a href="#info" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Info</a>
-                <a href="#poprawiny" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Poprawiny</a>
-                <a href="#rsvp-section" onclick="toggleMenu()" class="block w-full text-center px-3 py-4 text-[#D4AF37] header-font font-bold tracking-widest text-lg mt-2">Potwierdź przybycie</a>
+                <a href="#venue" onclick="toggleMenu()"
+                   class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Lokalizacja</a>
+                <a href="#schedule" onclick="toggleMenu()"
+                   class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Plan
+                    Dnia</a>
+                <a href="#info" onclick="toggleMenu()"
+                   class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Info</a>
+                <a href="#poprawiny" onclick="toggleMenu()"
+                   class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Poprawiny</a>
+                <a href="#rsvp-section" onclick="toggleMenu()"
+                   class="block w-full text-center px-3 py-4 text-[#D4AF37] header-font font-bold tracking-widest text-lg mt-2">Potwierdź
+                    przybycie</a>
             </div>
         </div>
     </nav>
@@ -322,7 +352,8 @@
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
                     <div class="relative">
-                        <img src="resources/restauracja-bioli-trus-w-lesnym-dworze-w-suleczynie-piekny-palac-swietna-restauracja-na-kaszubach.webp" alt="Leśny Dwór" class="w-full h-[500px] object-cover arch-image shadow-2xl">
+                        <img src="resources/restauracja-bioli-trus-w-lesnym-dworze-w-suleczynie-piekny-palac-swietna-restauracja-na-kaszubach.webp"
+                             alt="Leśny Dwór" class="w-full h-[500px] object-cover arch-image shadow-2xl">
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6 text-center md:text-left">
@@ -330,14 +361,19 @@
                     <h3 class="italic-text text-xl text-[#D4AF37] -mt-4 mb-6">Sulęczyno</h3>
 
                     <p class="text-[#83977C] leading-relaxed">
-                        Na miejsce naszej ceremonii i wesela wybraliśmy <strong>Leśny Dwór w Sulęczynie</strong>. To magiczny zakątek nad taflą jeziora, gdzie kaszubska przyroda spotyka się z historyczną elegancją dworku.
+                        Na miejsce naszej ceremonii i wesela wybraliśmy <strong>Leśny Dwór w Sulęczynie</strong>. To
+                        magiczny zakątek nad taflą jeziora, gdzie kaszubska przyroda spotyka się z historyczną elegancją
+                        dworku.
                     </p>
                     <p class="text-[#83977C] leading-relaxed">
-                        Zielony, około 2-hektarowy teren wokół obiektu, jezioro Węgorzyno, lasy i prywatna plaża tworzą idealne tło do ceremonii plenerowej. Dla miłośników wypoczynku przygotowano też strefę wellness, basen, saunę oraz pomost nad jeziorem.
+                        Zielony, około 2-hektarowy teren wokół obiektu, jezioro Węgorzyno, lasy i prywatna plaża tworzą
+                        idealne tło do ceremonii plenerowej. Dla miłośników wypoczynku przygotowano też strefę wellness,
+                        basen, saunę oraz pomost nad jeziorem.
                     </p>
 
                     <div class="pt-6">
-                        <a href="https://lesnydwor.pl" target="_blank" class="btn-primary py-3 px-8 rounded-none text-xs font-bold uppercase tracking-widest">
+                        <a href="https://lesnydwor.pl" target="_blank"
+                           class="btn-primary py-3 px-8 rounded-none text-xs font-bold uppercase tracking-widest">
                             Zobacz Miejsce
                         </a>
                     </div>
@@ -415,37 +451,49 @@
 
                     <!-- Element 1 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🗝️</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">
+                            🗝️
+                        </div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">13:00</h3>
                         <p class="italic-text text-gray-600">Zameldowanie</p>
                     </div>
                     <!-- Element 2 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🍸</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">
+                            🍸
+                        </div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">14:30</h3>
                         <p class="italic-text text-gray-600">Aperitif</p>
                     </div>
                     <!-- Element 3 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">💍</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">
+                            💍
+                        </div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">15:30</h3>
                         <p class="italic-text text-gray-600">Ceremonia</p>
                     </div>
                     <!-- Element 4 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🥂</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">
+                            🥂
+                        </div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">16:30</h3>
                         <p class="italic-text text-gray-600">Życzenia</p>
                     </div>
                     <!-- Element 5 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🍽️</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">
+                            🍽️
+                        </div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">17:30</h3>
                         <p class="italic-text text-gray-600">Obiad</p>
                     </div>
                     <!-- Element 6 -->
                     <div class="flex flex-col items-center group">
-                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">💃</div>
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">
+                            💃
+                        </div>
                         <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">19:00</h3>
                         <p class="italic-text text-gray-600">Zabawa</p>
                     </div>
@@ -508,10 +556,10 @@
                 </div>
 
                 <!-- Karta 6: Wypełniacz (3D Foto) -->
-                <div class="h-full min-h-[200px] rounded-lg overflow-hidden relative">
+                <div class="info-card p-0 overflow-hidden">
                     <div
                             id="photo-3d"
-                            class="relative w-full h-full min-h-[220px] overflow-hidden"
+                            class="relative w-full h-full min-h-[260px] sm:min-h-[320px] overflow-hidden"
                             style="perspective: 800px;"
                     >
                         <img
@@ -528,7 +576,6 @@
                         >
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -543,7 +590,8 @@
                     <div class="text-4xl mb-4">☕ / 🍷</div>
                     <h3 class="header-font font-bold text-[#83977C] mb-4 text-lg">Zamiast Kwiatów</h3>
                     <p class="text-[#5a6e54] leading-relaxed italic-text">
-                        "Zamiast tradycyjnych bukietów, docenimy aromatyczne ziarna kawy, które rozbudzą nasze poranki lub wina, które umilą nasze wieczory."
+                        "Zamiast tradycyjnych bukietów, docenimy aromatyczne ziarna kawy, które rozbudzą nasze poranki
+                        lub wina, które umilą nasze wieczory."
                     </p>
                 </div>
 
@@ -551,7 +599,8 @@
                     <div class="text-4xl mb-4">✈️</div>
                     <h3 class="header-font font-bold text-[#83977C] mb-4 text-lg">Podróż Poślubna</h3>
                     <p class="text-[#5a6e54] leading-relaxed italic-text">
-                        "Zamiast prezentów, będziemy wdzięczni za Wasze wsparcie, które przeznaczymy na naszą wymarzoną podróż poślubną."
+                        "Zamiast prezentów, będziemy wdzięczni za Wasze wsparcie, które przeznaczymy na naszą wymarzoną
+                        podróż poślubną."
                     </p>
                 </div>
             </div>
@@ -576,10 +625,13 @@
                     <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-right gap-6 group cursor-default">
                         <!-- Treść -->
                         <div class="flex-1 order-2 md:order-1">
-                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">Regeneracyjne Śniadanie</h3>
+                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">
+                                Regeneracyjne Śniadanie</h3>
                             <p class="text-[#D4AF37] font-bold tracking-widest text-sm mb-3">08:00 - 11:00</p>
                             <p class="text-[#5a6e54] leading-relaxed text-sm sm:text-base">
-                                Zanim rozjedziemy się do domów, spotkajmy się na wspólnym śniadaniu w hotelowej restauracji. Aromatyczna kawa i pyszne jedzenie postawią nas na nogi po szampańskiej zabawie!
+                                Zanim rozjedziemy się do domów, spotkajmy się na wspólnym śniadaniu w hotelowej
+                                restauracji. Aromatyczna kawa i pyszne jedzenie postawią nas na nogi po szampańskiej
+                                zabawie!
                             </p>
                         </div>
                         <!-- Grafika/Ikona -->
@@ -595,10 +647,12 @@
                     <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-right gap-6 group cursor-default">
                         <!-- Treść -->
                         <div class="flex-1 order-2 md:order-1">
-                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">Poprawiny - Grill</h3>
+                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">
+                                Poprawiny - Grill</h3>
                             <p class="text-[#D4AF37] font-bold tracking-widest text-sm mb-3">START 13:00</p>
                             <p class="text-[#5a6e54] leading-relaxed text-sm sm:text-base">
-                                Chcemy nacieszyć się Wami trochę dłużej! Zapraszamy na luźne poprawiny w ogrodzie. Będzie grill, zimne napoje, leżaki i relaks nad brzegiem jeziora.
+                                Chcemy nacieszyć się Wami trochę dłużej! Zapraszamy na luźne poprawiny w ogrodzie.
+                                Będzie grill, zimne napoje, leżaki i relaks nad brzegiem jeziora.
                             </p>
                         </div>
                         <!-- Grafika/Ikona -->
@@ -612,7 +666,8 @@
                 <!-- Kolumna prawa: Zdjęcie -->
                 <div class="h-[500px] rounded-tl-[5rem] rounded-br-[5rem] overflow-hidden shadow-xl border-4 border-white relative group">
                     <!-- Wykorzystujemy istniejące zdjęcie -->
-                    <img src="resources/image5.jpeg" alt="Niedzielny relaks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <img src="resources/image5.jpeg" alt="Niedzielny relaks"
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                     <!-- Delikatny gradient dla lepszego efektu -->
                     <div class="absolute inset-0 bg-gradient-to-t from-[#83977C]/30 to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-500"></div>
                 </div>
@@ -628,22 +683,29 @@
 
             <div id="rsvp-steps" class="grid md:grid-cols-3 gap-12 text-center">
                 <div>
-                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">1</div>
+                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">
+                        1
+                    </div>
                     <p class="italic-text text-[#5a6e54]">Otrzymasz zaproszenie z kodem QR.</p>
                 </div>
                 <div>
-                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">2</div>
+                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">
+                        2
+                    </div>
                     <p class="italic-text text-[#5a6e54]">Zeskanuj kod telefonem.</p>
                 </div>
                 <div>
-                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">3</div>
+                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">
+                        3
+                    </div>
                     <p class="italic-text text-[#5a6e54]">Potwierdź obecność online.</p>
                 </div>
             </div>
 
             <div id="rsvp-direct-btn" class="hidden">
                 <p class="italic-text text-[#83977C] text-lg mb-8">Kliknij poniżej, aby potwierdzić swoją obecność.</p>
-                <a href="#" id="rsvp-link" class="btn-primary py-4 px-10 text-sm font-bold uppercase tracking-widest shadow-lg">
+                <a href="#" id="rsvp-link"
+                   class="btn-primary py-4 px-10 text-sm font-bold uppercase tracking-widest shadow-lg">
                     Przejdź do potwierdzenia zaproszenia
                 </a>
             </div>
@@ -714,6 +776,70 @@
             btnContainer.classList.add('hidden');
         }
     });
+
+        // PSEUDO-3D FOTO Z DWÓCH WARSTW
+    (function () {
+        const container = document.getElementById('photo-3d');
+        if (!container) return;
+
+        const layers = Array.from(container.querySelectorAll('img'));
+        let scrollOffset = 0;
+        let tiltX = 0;
+        let tiltY = 0;
+
+        function updateTransforms() {
+            layers.forEach(layer => {
+                const depth = parseFloat(layer.dataset.depth || 0);
+                const tx = tiltX * depth * 15; // ruch poziomy
+                const ty = tiltY * depth * 15 + scrollOffset * depth * -0.2; // scroll = lekki ruch góra/dół
+                layer.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+            });
+        }
+
+        // Ruch myszką / palcem (pozycja w obrębie kontenera)
+        function handlePointerMove(clientX, clientY) {
+            const rect = container.getBoundingClientRect();
+            const x = (clientX - rect.left) / rect.width;  // 0..1
+            const y = (clientY - rect.top) / rect.height; // 0..1
+            tiltX = (x - 0.5); // -0.5..0.5
+            tiltY = (y - 0.5);
+            updateTransforms();
+        }
+
+        container.addEventListener('mousemove', (e) => {
+            handlePointerMove(e.clientX, e.clientY);
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches[0]) {
+                handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+        // Scroll – lekka paralaksa
+        window.addEventListener('scroll', () => {
+            const rect = container.getBoundingClientRect();
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const center = rect.top + rect.height / 2;
+            const distanceFromCenter = center - viewportHeight / 2;
+            scrollOffset = distanceFromCenter / viewportHeight; // -1..1 mniej więcej
+            updateTransforms();
+        }, { passive: true });
+
+        // Device tilt (mobile) – jeśli dostępne
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (event) => {
+                const gamma = event.gamma || 0; // lewo/prawo
+                const beta = event.beta || 0;   // góra/dół
+                tiltX = gamma / 45; // normalizacja ~ -1..1
+                tiltY = beta / 45;
+                updateTransforms();
+            }, true);
+        }
+
+        // Startowa pozycja
+        updateTransforms();
+    })();
 </script>
 </body>
 </html>

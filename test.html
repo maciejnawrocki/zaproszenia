@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Klaudia & Maciej - Zaproszenia ślubne</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* Konfiguracja podstawowa */
+        :root {
+            --primary-gold: #D4AF37;
+            --main-green: #83977C;
+            --light-bg: #faf9f6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Zapobiega zasłanianiu nagłówków przez menu po kliknięciu */
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--main-green);
+            background-color: #fdfbf7;
+            background-image: url('../resources/wallpaper.webp'); /* Upewnij się, że ścieżka jest poprawna */
+            background-size: 400px auto;
+            background-repeat: repeat;
+            overflow-x: hidden;
+            font-size: 19px;
+        }
+
+        .header-font {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .italic-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; }
+
+        /* Styl przycisku */
+        .btn-primary {
+            background-color: var(--main-green);
+            color: white;
+            border: 1px solid var(--main-green);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: white;
+            color: var(--main-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(131, 151, 124, 0.3);
+        }
+
+        /* Menu mobilne animacja */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        /* HERO / COUNTDOWN SECTION */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('resources/counter_background2.jpeg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.65);
+            z-index: -1;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        /* Licznik dni */
+        .countdown-item {
+            display: inline-block;
+            margin: 0 15px;
+            text-align: center;
+        }
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 400;
+            font-family: 'Cinzel', serif;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .countdown-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 8px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Mapa Google */
+        .map-container iframe {
+            width: 100%;
+            height: 450px;
+            border: 0;
+            filter: grayscale(20%);
+        }
+
+        /* Shapes & Images */
+        .arch-image {
+            border-radius: 200px 200px 0 0;
+            box-shadow: 10px 10px 30px rgba(131, 151, 124, 0.15);
+        }
+
+        .blob-image-container {
+            overflow: hidden;
+            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+            box-shadow: 10px 10px 30px rgba(131, 151, 124, 0.2);
+            transition: all 0.5s ease;
+        }
+        .blob-image-container:hover {
+            border-radius: 58% 42% 30% 70% / 55% 55% 45% 45%;
+        }
+
+        /* Parallax Divider */
+        .parallax-divider {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 400px;
+            position: relative;
+        }
+        .parallax-overlay {
+            background: rgba(0,0,0,0.3);
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+        }
+
+        /* Cards */
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border: 1px solid rgba(131, 151, 124, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(131, 151, 124, 0.1);
+        }
+
+        @media (max-width: 640px) {
+            .countdown-number { font-size: 2rem; }
+            .countdown-item { margin: 0 8px; }
+            .parallax-divider { background-attachment: scroll; height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO SECTION -->
+<header class="hero-section" id="home">
+    <div class="hero-bg"></div>
+
+    <div class="relative z-10 px-4 animate-fade-in">
+        <p class="italic-text mb-6 text-white text-2xl tracking-wider">Pobieramy się!</p>
+
+        <h1 class="text-4xl sm:text-6xl mb-2 drop-shadow-lg text-white header-font">Klaudia Dymnicka</h1>
+        <p class="italic-text text-white my-2 text-xl">oraz</p>
+        <h1 class="text-4xl sm:text-6xl mb-8 drop-shadow-lg text-white header-font">Maciej Nawrocki</h1>
+
+        <div class="w-24 h-px bg-white/60 mx-auto mb-8"></div>
+
+        <p class="header-font text-xl sm:text-2xl mb-12 text-gray-100 drop-shadow-md">1 Sierpnia 2026</p>
+
+        <div id="countdown" class="flex justify-center flex-wrap gap-4 text-white">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">0</div>
+                <div class="countdown-label">Dni</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">0</div>
+                <div class="countdown-label">Godz</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">0</div>
+                <div class="countdown-label">Min</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">0</div>
+                <div class="countdown-label">Sek</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-indicator text-white cursor-pointer" onclick="document.getElementById('main-content').scrollIntoView({behavior: 'smooth'})">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </div>
+</header>
+
+<!-- GŁÓWNA TREŚĆ -->
+<main id="main-content" class="bg-white relative z-20 shadow-2xl -mt-4 rounded-t-[2rem]">
+
+    <!-- NAV BAR (ZMODYFIKOWANY) -->
+    <nav class="sticky top-0 z-50 bg-white/98 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+
+                <!-- Logo Sekcja (Lewa strona) - ZMIANA: dodane h-full do kontenera i obrazka -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer h-full" onclick="window.scrollTo(0,0)">
+                    <img src="resources/monogram%20KM.png" alt="Klaudia & Maciej Logo" class="h-full w-auto hover:opacity-80 transition-opacity p-1">
+                </div>
+
+                <!-- Desktop Menu (Prawa strona - widoczne tylko na dużych ekranach) -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#venue" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Lokalizacja</a>
+                    <a href="#schedule" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Plan Dnia</a>
+                    <a href="#info" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Info</a>
+                    <a href="#poprawiny" class="text-[#83977C] hover:text-[#D4AF37] transition-colors header-font text-sm font-bold tracking-wider">Poprawiny</a>
+                    <a href="#rsvp-section" class="btn-primary py-2 px-6 text-xs font-bold uppercase tracking-widest border border-[#83977C]">RSVP</a>
+                </div>
+
+                <!-- Mobile Menu Button (Widoczne tylko na małych ekranach) -->
+                <div class="flex md:hidden">
+                    <button onclick="toggleMenu()" type="button" class="text-[#83977C] hover:text-[#D4AF37] focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Otwórz menu</span>
+                        <!-- Ikona hamburgera -->
+                        <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel (Rozwijane menu) -->
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0">
+            <div class="px-4 pt-2 pb-8 space-y-1 flex flex-col items-center">
+                <a href="#venue" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Lokalizacja</a>
+                <a href="#schedule" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Plan Dnia</a>
+                <a href="#info" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Info</a>
+                <a href="#poprawiny" onclick="toggleMenu()" class="block w-full text-center px-3 py-3 text-[#83977C] header-font font-bold tracking-widest border-b border-gray-50">Poprawiny</a>
+                <a href="#rsvp-section" onclick="toggleMenu()" class="block w-full text-center px-3 py-4 text-[#D4AF37] header-font font-bold tracking-widest text-lg mt-2">Potwierdź przybycie</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SEKCJA: ZAPROSZENIE -->
+    <section class="py-24 px-4 text-center bg-[#fdfbf7]">
+        <div class="max-w-3xl mx-auto space-y-6">
+            <p class="italic-text text-[#83977C] mb-4">Z wielką radością...</p>
+            <h2 class="text-3xl sm:text-4xl header-font text-[#83977C]">Klaudia Dymnicka</h2>
+            <p class="italic-text text-[#83977C]">&</p>
+            <h2 class="text-3xl sm:text-4xl header-font text-[#83977C] mb-8">Maciej Nawrocki</h2>
+
+            <p class="italic-text text-[#83977C] max-w-xl mx-auto leading-relaxed text-lg">
+                zapraszają Was na uroczystość zawarcia związku małżeńskiego<br>
+                oraz przyjęcie weselne.
+            </p>
+
+            <div class="w-16 h-px bg-[#83977C]/30 mx-auto my-8"></div>
+
+            <div class="grid gap-2">
+                <h3 class="text-2xl sm:text-3xl header-font text-[#83977C]">Sobota, 1 Sierpnia 2026</h3>
+                <p class="italic-text text-[#83977C] text-xl">godzina 15:30</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: MIEJSCE (LEŚNY DWÓR) - ID DODANE -->
+    <section id="venue" class="py-20 px-4 bg-white scroll-mt-24">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="relative">
+                        <img src="resources/restauracja-bioli-trus-w-lesnym-dworze-w-suleczynie-piekny-palac-swietna-restauracja-na-kaszubach.webp" alt="Leśny Dwór" class="w-full h-[500px] object-cover arch-image shadow-2xl">
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-6 text-center md:text-left">
+                    <h2 class="text-3xl header-font text-[#83977C] mb-4">Leśny Dwór</h2>
+                    <h3 class="italic-text text-xl text-[#D4AF37] -mt-4 mb-6">Sulęczyno</h3>
+
+                    <p class="text-[#83977C] leading-relaxed">
+                        Na miejsce naszej ceremonii i wesela wybraliśmy <strong>Leśny Dwór w Sulęczynie</strong>. To magiczny zakątek nad taflą jeziora, gdzie kaszubska przyroda spotyka się z historyczną elegancją dworku.
+                    </p>
+                    <p class="text-[#83977C] leading-relaxed">
+                        Zielony, około 2-hektarowy teren wokół obiektu, jezioro Węgorzyno, lasy i prywatna plaża tworzą idealne tło do ceremonii plenerowej. Dla miłośników wypoczynku przygotowano też strefę wellness, basen, saunę oraz pomost nad jeziorem.
+                    </p>
+
+                    <div class="pt-6">
+                        <a href="https://lesnydwor.pl" target="_blank" class="btn-primary py-3 px-8 rounded-none text-xs font-bold uppercase tracking-widest">
+                            Zobacz Miejsce
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: LOKALIZACJA I MAPA -->
+    <section class="py-20 px-4 bg-gray-50 border-t border-b border-[#83977C]/10">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left space-y-6 order-2 md:order-1">
+                    <h2 class="text-3xl header-font text-[#83977C]">Lokalizacja</h2>
+
+                    <div class="space-y-2">
+                        <h3 class="text-2xl font-serif text-[#D4AF37]">Leśny Dwór</h3>
+                        <p class="text-[#5a6e54] text-lg leading-relaxed">
+                            ul. Stefana Żeromskiego 15<br>
+                            83-320 Sulęczyno<br>
+                            Kaszuby
+                        </p>
+                    </div>
+
+                    <div class="w-16 h-px bg-[#83977C]/30 mx-auto md:mx-0 my-6"></div>
+
+                    <p class="italic-text text-[#83977C] text-base">
+                        "Miejsce, gdzie natura spotyka się z historią,<br>
+                        a my spotkamy się z Wami."
+                    </p>
+
+                    <div class="pt-4">
+                        <a href="https://www.google.com/maps/place/Le%C5%9Bny+Dw%C3%B3r/@54.2352237,17.7809513,353a,35y,0.69t/data=!3m2!1e3!5s0x46fdf4edbb7e7557:0xe6a98d03b2abd91f!4m10!3m9!1s0x46fdf4ed95ed89eb:0xe2f8d9d7aa8d885a!5m3!1s2025-11-30!4m1!1i2!8m2!3d54.2354656!4d17.7813172!16s%2Fg%2F1tq8h7kv?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
+                           target="_blank"
+                           class="btn-primary py-3 px-8 rounded-none text-xs font-bold uppercase tracking-widest inline-flex items-center gap-2">
+                            <span>📍</span> Jak dojechać
+                        </a>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2 h-[400px] w-full rounded-xl overflow-hidden shadow-xl border border-[#83977C]/20 relative">
+                    <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2335.4762867117786!2d17.77113937698906!3d54.23098097256112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46fd645505845001%3A0x9f072f4624851664!2sLe%C5%9Bny%20Dw%C3%B3r%20Sul%C4%99czyno!5e0!3m2!1spl!2spl!4v1710000000000!5m2!1spl!2spl"
+                            class="w-full h-full object-cover filter grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARALLAX SEPARATOR -->
+    <div class="parallax-divider" style="background-image: url('resources/image4.jpeg');">
+        <div class="parallax-overlay flex items-center justify-center">
+            <h2 class="text-4xl md:text-6xl header-font text-white drop-shadow-xl tracking-widest text-center px-4">
+                Świętujcie z nami
+            </h2>
+        </div>
+    </div>
+
+    <!-- SEKCJA: PLAN DNIA (ZMODYFIKOWANA SIATKA) -->
+    <section id="schedule" class="py-24 px-4 bg-white text-center scroll-mt-24">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl header-font text-[#83977C] mb-16">Plan Dnia - 1.08.2026</h2>
+
+            <div class="relative max-w-5xl mx-auto">
+                <!-- Linia pozioma (tylko na desktopie) -->
+                <div class="hidden lg:block absolute top-[50px] left-0 w-full h-px bg-[#83977C]/30 -z-10"></div>
+                <!-- Linia pionowa (opcjonalnie na mobile, tutaj brak dla czystszego wyglądu, grid załatwia sprawę) -->
+
+                <!-- ZMIANA GRID: grid-cols-1 (mobile pionowo) -> lg:grid-cols-6 (komputer poziomo) -->
+                <div class="grid grid-cols-1 lg:grid-cols-6 gap-12 lg:gap-4">
+
+                    <!-- Element 1 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🗝️</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">13:00</h3>
+                        <p class="italic-text text-gray-600">Zameldowanie</p>
+                    </div>
+                    <!-- Element 2 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🍸</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">14:30</h3>
+                        <p class="italic-text text-gray-600">Aperitif</p>
+                    </div>
+                    <!-- Element 3 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">💍</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">15:30</h3>
+                        <p class="italic-text text-gray-600">Ceremonia</p>
+                    </div>
+                    <!-- Element 4 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🥂</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">16:30</h3>
+                        <p class="italic-text text-gray-600">Życzenia</p>
+                    </div>
+                    <!-- Element 5 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">🍽️</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">17:30</h3>
+                        <p class="italic-text text-gray-600">Obiad</p>
+                    </div>
+                    <!-- Element 6 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 bg-white border border-[#83977C] rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:bg-[#83977C] group-hover:text-white transition-colors duration-300 z-10">💃</div>
+                        <h3 class="header-font font-bold text-[#83977C] text-lg mb-1">19:00</h3>
+                        <p class="italic-text text-gray-600">Zabawa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: WARTO WIEDZIEĆ - ID DODANE -->
+    <section id="info" class="py-24 px-4 bg-white scroll-mt-24">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl header-font text-[#83977C] mb-16 text-center">Warto Wiedzieć</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Karta 1: Zakwaterowanie -->
+                <div class="info-card text-center">
+                    <div class="text-4xl mb-4">🛏️</div>
+                    <h3 class="header-font font-bold text-[#83977C] mb-3">Zakwaterowanie</h3>
+                    <p class="text-sm text-[#5a6e54] leading-relaxed mb-4">
+                        Z myślą o Waszym komforcie, zapewniamy nocleg na miejscu w dniu wesela.</p>
+                    <p class="text-sm text-[#5a6e54] leading-relaxed mb-4">Jeśli chcielibyście przyjechać wcześniej lub zostać dłużej, bardzo prosimy, dajcie nam znać z wyprzedzeniem. Chętnie pomożemy w przedłużeniu rezerwacji.
+                    </p>
+                    <a href="https://lesnydwor.pl/pokoje" target="_blank" class="text-[#D4AF37] underline italic-text text-base hover:text-[#83977C]">Zobacz pokoje</a>
+                </div>
+
+                <!-- Karta 2: Dzieci -->
+                <div class="info-card text-center">
+                    <div class="text-4xl mb-4">👶</div>
+                    <h3 class="header-font font-bold text-[#83977C] mb-3">Dzieci</h3>
+                    <p class="text-sm text-[#5a6e54] leading-relaxed">
+                        Wiemy, że kochacie swoje pociechy najbardziej na świecie, ale tego wieczoru pozwólcie sobie na odrobinę beztroski! Impreza tylko dla dorosłych.
+                    </p>
+                </div>
+
+                <!-- Karta 3: Zdjęcia -->
+                <div class="info-card text-center">
+                    <div class="text-4xl mb-4">📸</div>
+                    <h3 class="header-font font-bold text-[#83977C] mb-3">Wspólne Zdjęcia</h3>
+                    <p class="text-sm text-[#5a6e54] leading-relaxed mb-4">
+                        Będziemy mieć fotografa, ale zachęcamy Was do dzielenia się własnymi ujęciami!
+                    </p>
+                    <span class="text-xs uppercase tracking-widest text-[#83977C] border border-[#83977C] px-3 py-1 rounded">Link do dysku wkrótce</span>
+                </div>
+
+                <!-- Karta 4: Plan Stołów -->
+                <div class="info-card text-center relative overflow-hidden bg-gray-50">
+                    <div class="text-4xl mb-4 opacity-50">📋</div>
+                    <h3 class="header-font font-bold text-[#83977C] mb-3 opacity-70">Plan Stołów</h3>
+                    <p class="italic-text text-[#83977C] text-lg">Wróć 01.07.2026</p>
+                    <div class="absolute top-2 right-2 text-[#D4AF37]">🔒</div>
+                </div>
+
+                <!-- Karta 5: Menu -->
+                <div class="info-card text-center relative overflow-hidden bg-gray-50">
+                    <div class="text-4xl mb-4 opacity-50">🍲</div>
+                    <h3 class="header-font font-bold text-[#83977C] mb-3 opacity-70">Menu Weselne</h3>
+                    <p class="italic-text text-[#83977C] text-lg">Wróć 01.07.2026</p>
+                    <div class="absolute top-2 right-2 text-[#D4AF37]">🔒</div>
+                </div>
+
+                <!-- Karta 6: Wypełniacz (3D Foto) -->
+                <div class="h-full min-h-[200px] rounded-lg overflow-hidden relative">
+                    <div
+                            id="photo-3d"
+                            class="relative w-full h-full min-h-[220px] overflow-hidden"
+                            style="perspective: 800px;"
+                    >
+                        <img
+                                src="resources/bottom_layer.png"
+                                alt="Dekoracje - tło"
+                                class="absolute inset-0 w-full h-full object-cover will-change-transform"
+                                data-depth="0.15"
+                        >
+                        <img
+                                src="resources/top_layer.png"
+                                alt="Dekoracje - przód"
+                                class="absolute inset-0 w-full h-full object-cover will-change-transform"
+                                data-depth="0.35"
+                        >
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: PREZENTY -->
+    <section class="py-24 px-4 bg-[#fdfbf7] text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl header-font text-[#83977C] mb-12">Prezenty</h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 shadow-sm rounded-lg border-t-4 border-[#83977C]">
+                    <div class="text-4xl mb-4">☕ / 🍷</div>
+                    <h3 class="header-font font-bold text-[#83977C] mb-4 text-lg">Zamiast Kwiatów</h3>
+                    <p class="text-[#5a6e54] leading-relaxed italic-text">
+                        "Zamiast tradycyjnych bukietów, docenimy aromatyczne ziarna kawy, które rozbudzą nasze poranki lub wina, które umilą nasze wieczory."
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 shadow-sm rounded-lg border-t-4 border-[#D4AF37]">
+                    <div class="text-4xl mb-4">✈️</div>
+                    <h3 class="header-font font-bold text-[#83977C] mb-4 text-lg">Podróż Poślubna</h3>
+                    <p class="text-[#5a6e54] leading-relaxed italic-text">
+                        "Zamiast prezentów, będziemy wdzięczni za Wasze wsparcie, które przeznaczymy na naszą wymarzoną podróż poślubną."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEKCJA: NIEDZIELA (POPRAWINY + ŚNIADANIE) - ZMODYFIKOWANA -->
+    <section id="poprawiny" class="py-20 px-4 bg-[#fdfbf7] border-t border-[#83977C]/10 scroll-mt-24">
+        <div class="max-w-6xl mx-auto">
+            <!-- Nagłówek sekcji -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl header-font text-[#83977C] mb-2">Niedziela</h2>
+                <h3 class="text-xl font-serif text-[#D4AF37] italic">2 Sierpnia 2026</h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+
+                <!-- Kolumna lewa: Harmonogram -->
+                <div class="space-y-12">
+
+                    <!-- Blok 1: Śniadanie -->
+                    <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-right gap-6 group cursor-default">
+                        <!-- Treść -->
+                        <div class="flex-1 order-2 md:order-1">
+                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">Regeneracyjne Śniadanie</h3>
+                            <p class="text-[#D4AF37] font-bold tracking-widest text-sm mb-3">08:00 - 11:00</p>
+                            <p class="text-[#5a6e54] leading-relaxed text-sm sm:text-base">
+                                Zanim rozjedziemy się do domów, spotkajmy się na wspólnym śniadaniu w hotelowej restauracji. Aromatyczna kawa i pyszne jedzenie postawią nas na nogi po szampańskiej zabawie!
+                            </p>
+                        </div>
+                        <!-- Grafika/Ikona -->
+                        <div class="order-1 md:order-2 w-16 h-16 bg-white rounded-full shadow-md border border-[#83977C]/30 flex items-center justify-center text-3xl shrink-0 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300 text-[#83977C]">
+                            ☕
+                        </div>
+                    </div>
+
+                    <!-- Ozdobny separator -->
+                    <div class="w-24 h-px bg-[#83977C]/20 mx-auto md:ml-auto md:mr-8"></div>
+
+                    <!-- Blok 2: Grill -->
+                    <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-right gap-6 group cursor-default">
+                        <!-- Treść -->
+                        <div class="flex-1 order-2 md:order-1">
+                            <h3 class="text-2xl header-font text-[#83977C] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300">Poprawiny - Grill</h3>
+                            <p class="text-[#D4AF37] font-bold tracking-widest text-sm mb-3">START 13:00</p>
+                            <p class="text-[#5a6e54] leading-relaxed text-sm sm:text-base">
+                                Chcemy nacieszyć się Wami trochę dłużej! Zapraszamy na luźne poprawiny w ogrodzie. Będzie grill, zimne napoje, leżaki i relaks nad brzegiem jeziora.
+                            </p>
+                        </div>
+                        <!-- Grafika/Ikona -->
+                        <div class="order-1 md:order-2 w-16 h-16 bg-white rounded-full shadow-md border border-[#D4AF37]/30 flex items-center justify-center text-3xl shrink-0 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300">
+                            🍖
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Kolumna prawa: Zdjęcie -->
+                <div class="h-[500px] rounded-tl-[5rem] rounded-br-[5rem] overflow-hidden shadow-xl border-4 border-white relative group">
+                    <!-- Wykorzystujemy istniejące zdjęcie -->
+                    <img src="resources/image5.jpeg" alt="Niedzielny relaks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <!-- Delikatny gradient dla lepszego efektu -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#83977C]/30 to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-500"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SEKCJA: RSVP -->
+    <section class="py-20 px-4 bg-white text-center scroll-mt-24" id="rsvp-section">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl header-font text-[#83977C] mb-10 tracking-widest">Potwierdzenie Obecności</h2>
+
+            <div id="rsvp-steps" class="grid md:grid-cols-3 gap-12 text-center">
+                <div>
+                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">1</div>
+                    <p class="italic-text text-[#5a6e54]">Otrzymasz zaproszenie z kodem QR.</p>
+                </div>
+                <div>
+                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">2</div>
+                    <p class="italic-text text-[#5a6e54]">Zeskanuj kod telefonem.</p>
+                </div>
+                <div>
+                    <div class="w-12 h-12 rounded-full bg-[#faf9f6] text-[#83977C] flex items-center justify-center mx-auto mb-4 font-bold border border-[#83977C]">3</div>
+                    <p class="italic-text text-[#5a6e54]">Potwierdź obecność online.</p>
+                </div>
+            </div>
+
+            <div id="rsvp-direct-btn" class="hidden">
+                <p class="italic-text text-[#83977C] text-lg mb-8">Kliknij poniżej, aby potwierdzić swoją obecność.</p>
+                <a href="#" id="rsvp-link" class="btn-primary py-4 px-10 text-sm font-bold uppercase tracking-widest shadow-lg">
+                    Przejdź do potwierdzenia zaproszenia
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#83977C] text-white py-12 text-center">
+        <h2 class="header-font text-2xl mb-4">Klaudia & Maciej</h2>
+        <p class="text-sm opacity-70 font-serif tracking-widest">DO ZOBACZENIA WKRÓTCE</p>
+        <div class="w-8 h-px bg-white/40 mx-auto my-6"></div>
+        <p class="text-xs opacity-60">&copy; 2026 Wszelkie prawa zastrzeżone, bo strasznie się przy tym napracowałem</p>
+    </footer>
+
+</main>
+
+<script>
+    // OBSŁUGA MENU MOBILNEGO
+    function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        if (menu.classList.contains('open')) {
+            menu.classList.remove('open');
+        } else {
+            menu.classList.add('open');
+        }
+    }
+
+    // LICZNIK CZASU
+    const weddingDate = new Date('August 1, 2026 15:30:00').getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        if (distance < 0) {
+            document.getElementById("countdown").innerHTML = "<div class='text-2xl font-serif'>Witamy w Dniu Ślubu!</div>";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = days;
+        document.getElementById("hours").innerText = hours;
+        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("seconds").innerText = seconds;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // LOGIKA RSVP
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const guestId = params.get('id');
+
+        const stepsContainer = document.getElementById('rsvp-steps');
+        const btnContainer = document.getElementById('rsvp-direct-btn');
+        const rsvpLink = document.getElementById('rsvp-link');
+
+        if (guestId) {
+            stepsContainer.classList.add('hidden');
+            btnContainer.classList.remove('hidden');
+            rsvpLink.href = `/accept/index.html?id=${guestId}`;
+        } else {
+            stepsContainer.classList.remove('hidden');
+            btnContainer.classList.add('hidden');
+        }
+    });
+</script>
+</body>
+</html>

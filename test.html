@@ -230,6 +230,21 @@
             from { transform: scale(1.05); }
             to { transform: scale(1); }
         }
+
+        .enlarge-on-scroll {
+          transition: transform 0.5s;
+        }
+
+        .enlarge-on-scroll.enlarged {
+          transform: scale(1.05);
+        }
+
+        @media (min-width: 1024px) {
+          .enlarge-on-hover:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+          }
+        }
             </style>
 </head>
 <body>
@@ -344,7 +359,7 @@
     </nav>
 
     <!-- SEKCJA: ZAPROSZENIE -->
-    <section class="py-24 px-4 text-center bg-[#fdfbf7]">
+    <section class="py-24 px-4 text-center bg-[#fdfbf7] enlarge-on-hover enlarge-on-scroll">
         <div class="max-w-3xl mx-auto space-y-6">
             <p class="italic-text text-[#83977C] mb-4">Z wielką radością...</p>
             <h2 class="text-3xl sm:text-4xl header-font text-[#83977C]">Klaudia Dymnicka</h2>
@@ -366,7 +381,7 @@
     </section>
 
     <!-- SEKCJA: MIEJSCE (LEŚNY DWÓR) - ID DODANE -->
-    <section id="venue" class="py-20 px-4 bg-white scroll-mt-24">
+    <section id="venue" class="py-20 px-4 bg-white scroll-mt-24 enlarge-on-hover enlarge-on-scroll">
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
@@ -402,7 +417,7 @@
     </section>
 
     <!-- SEKCJA: LOKALIZACJA I MAPA -->
-    <section class="py-20 px-4 bg-gray-50 border-t border-b border-[#83977C]/10">
+    <section class="py-20 px-4 bg-gray-50 border-t border-b border-[#83977C]/10 enlarge-on-hover enlarge-on-scroll">
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="text-center md:text-left space-y-6 order-2 md:order-1">
@@ -454,7 +469,7 @@
     </section>
 
     <!-- PARALLAX SEPARATOR -->
-    <div class="parallax-divider" style="background-image: url('resources/image4.jpeg');">
+    <div class="parallax-divider enlarge-on-hover enlarge-on-scroll" style="background-image: url('resources/image4.jpeg');">
         <div class="parallax-overlay flex items-center justify-center">
             <h2 class="text-4xl md:text-6xl header-font text-white drop-shadow-xl tracking-widest text-center px-4">
                 Świętujcie z nami
@@ -463,7 +478,7 @@
     </div>
 
     <!-- SEKCJA: PLAN DNIA (ZMODYFIKOWANA SIATKA) -->
-    <section id="schedule" class="py-24 px-4 bg-white text-center scroll-mt-24">
+    <section id="schedule" class="py-24 px-4 bg-white text-center scroll-mt-24 enlarge-on-hover enlarge-on-scroll">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl header-font text-[#83977C] mb-16">Plan Dnia - 1.08.2026</h2>
 
@@ -529,7 +544,7 @@
     </section>
 
     <!-- SEKCJA: WARTO WIEDZIEĆ - ID DODANE -->
-    <section id="info" class="py-24 px-4 bg-white scroll-mt-24">
+    <section id="info" class="py-24 px-4 bg-white scroll-mt-24 enlarge-on-hover enlarge-on-scroll">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl header-font text-[#83977C] mb-16 text-center">Warto Wiedzieć</h2>
 
@@ -607,7 +622,7 @@
     </section>
 
     <!-- SEKCJA: PREZENTY -->
-    <section class="py-24 px-4 bg-[#fdfbf7] text-center">
+    <section class="py-24 px-4 bg-[#fdfbf7] text-center enlarge-on-hover enlarge-on-scroll">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-3xl header-font text-[#83977C] mb-12">Prezenty</h2>
 
@@ -644,7 +659,7 @@
     </section>
 
     <!-- SEKCJA: NIEDZIELA (POPRAWINY + ŚNIADANIE) - ZMODYFIKOWANA -->
-    <section id="poprawiny" class="py-20 px-4 bg-[#fdfbf7] border-t border-[#83977C]/10 scroll-mt-24">
+    <section id="poprawiny" class="py-20 px-4 bg-[#fdfbf7] border-t border-[#83977C]/10 scroll-mt-24 enlarge-on-hover enlarge-on-scroll">
         <div class="max-w-6xl mx-auto">
             <!-- Nagłówek sekcji -->
             <div class="text-center mb-16">
@@ -727,7 +742,7 @@
 
 
     <!-- SEKCJA: RSVP -->
-    <section class="py-20 px-4 bg-white text-center scroll-mt-24" id="rsvp-section">
+    <section class="py-20 px-4 bg-white text-center scroll-mt-24 enlarge-on-hover enlarge-on-scroll" id="rsvp-section">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-2xl header-font text-[#83977C] mb-10 tracking-widest">Potwierdzenie Obecności</h2>
 
@@ -970,6 +985,31 @@
         });
 
         giftCards.forEach(card => observer.observe(card));
+    })();
+
+    // Mobile Scroll Enlarge Effect
+    (function() {
+        const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+        if (!isMobile) return; // Only for mobile
+
+        const elementsToEnlarge = document.querySelectorAll('.enlarge-on-scroll');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('enlarged');
+                } else {
+                    entry.target.classList.remove('enlarged');
+                }
+            });
+        }, {
+            threshold: 0.5, // Trigger when 50% of the element is visible
+        });
+
+        elementsToEnlarge.forEach(element => {
+            observer.observe(element);
+        });
     })();
 </script>
 </body>

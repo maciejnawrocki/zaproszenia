@@ -1004,7 +1004,8 @@
                 }
             });
         }, {
-            threshold: 0.5, // Trigger when 50% of the element is visible
+            rootMargin: '-30% 0px -30% 0px',
+            threshold: 0.5, // Trigger when 50% of the element is visible in the central viewport area
         });
 
         elementsToEnlarge.forEach(element => {

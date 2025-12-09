@@ -385,9 +385,32 @@
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
-                    <div class="relative">
-                        <img src="resources/restauracja-bioli-trus-w-lesnym-dworze-w-suleczynie-piekny-palac-swietna-restauracja-na-kaszubach.webp"
-                             alt="Leśny Dwór" class="w-full h-[500px] object-cover arch-image shadow-2xl">
+                    <div id="lesny-dwor-parallax" class="h-[500px] rounded-tl-[5rem] rounded-br-[5rem] overflow-hidden shadow-xl border-4 border-white relative group transform-style-3d">
+
+                        <!-- Warstwa 1: TŁO (najwolniejsza, najdalej) - lesny_dwor_bottom.png -->
+                        <img src="resources/lesny_dwor_bottom.png"
+                             alt="Tło Leśnego Dworu"
+                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-100 ease-out will-change-transform"
+                             data-depth="0.10"
+                             style="transform: scale(1.1);">
+
+                        <!-- Warstwa 2: ŚRODEK (średnia prędkość) - lesny_dwor_middle.png -->
+                        <img src="resources/lesny_dwor_middle.png"
+                             alt="Środkowy plan Leśnego Dworu"
+                             class="absolute inset-0 w-full h-full object-contain transition-transform duration-100 ease-out will-change-transform"
+                             data-depth="0.30"
+                             style="transform: scale(1.1);">
+
+                        <!-- Warstwa 3: PRZÓD (najszybsza, najbliżej) - lesny_dwor_top.png -->
+                        <img src="resources/lesny_dwor_top.png"
+                             alt="Pierwszy plan Leśnego Dworu"
+                             class="absolute inset-0 w-full h-full object-contain transition-transform duration-100 ease-out will-change-transform"
+                             data-depth="0.50"
+                             style="transform: scale(1.1);">
+
+                        <!-- Gradient na wierzchu dla spójności z resztą strony -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#83977C]/30 to-transparent pointer-events-none"></div>
+
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6 text-center md:text-left">
@@ -838,7 +861,7 @@
     // UNIWERSALNY SKRYPT PARALAKSY (OBSŁUGUJE WIELE ELEMENTÓW)
     (function () {
         // Lista ID elementów, które mają mieć efekt paralaksy
-        const parallaxIds = ['photo-3d', 'poprawiny-parallax'];
+        const parallaxIds = ['lesny-dwor-parallax', 'photo-3d', 'poprawiny-parallax'];
 
         // Tablica przechowująca obiekty z danymi dla każdego kontenera
         const instances = [];

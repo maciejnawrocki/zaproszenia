@@ -230,6 +230,28 @@
             from { transform: scale(1.05); }
             to { transform: scale(1); }
         }
+
+        #lesny-dwor-parallax img,
+        #poprawiny-parallax img,
+        #photo-3d img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform-origin: center;
+            will-change: transform;
+            transition: transform 0.12s linear;
+        }
+
+        /* Drobne dostosowanie kiedy kontener jest bardzo wąski — zmniejsza pionowy rozmiar */
+        @media (max-width: 720px) {
+            #lesny-dwor-parallax img,
+            #poprawiny-parallax img,
+            #photo-3d img {
+            }
+        }
     </style>
 </head>
 <body>
@@ -370,32 +392,32 @@
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
-                    <div id="lesny-dwor-parallax" class="h-[500px] rounded-tl-[5rem] rounded-br-[5rem] overflow-hidden shadow-xl border-4 border-white relative group transform-style-3d">
+                    <div id="lesny-dwor-parallax"
+                         class="h-[320px] md:h-[500px] rounded-tl-[2.5rem] md:rounded-tl-[5rem] rounded-br-[2.5rem] md:rounded-br-[5rem] overflow-hidden shadow-xl border-4 border-white relative group transform-style-3d">
 
-                        <!-- Warstwa 1: TŁO (najwolniejsza, najdalej) - lesny_dwor_bottom.png -->
+                        <!-- Warstwa 1: TŁO (najwolniejsza, najdalej) -->
                         <img src="resources/lesny_dwor_bottom.png"
                              alt="Tło Leśnego Dworu"
                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-100 ease-out will-change-transform"
                              data-depth="0.10"
-                             style="transform: scale(1.1);">
+                             style="transform: scale(1.05);">
 
-                        <!-- Warstwa 2: ŚRODEK (średnia prędkość) - lesny_dwor_middle.png -->
+                        <!-- Warstwa 2: ŚRODEK (średnia prędkość) -->
                         <img src="resources/lesny_dwor_middle.png"
                              alt="Środkowy plan Leśnego Dworu"
                              class="absolute inset-0 w-full h-full object-contain transition-transform duration-100 ease-out will-change-transform"
                              data-depth="0.30"
-                             style="transform: scale(1.1);">
+                             style="transform: scale(1.05);">
 
-                        <!-- Warstwa 3: PRZÓD (najszybsza, najbliżej) - lesny_dwor_top.png -->
+                        <!-- Warstwa 3: PRZÓD (najszybsza, najbliżej) -->
                         <img src="resources/lesny_dwor_top.png"
                              alt="Pierwszy plan Leśnego Dworu"
                              class="absolute inset-0 w-full h-full object-contain transition-transform duration-100 ease-out will-change-transform"
                              data-depth="0.50"
-                             style="transform: scale(1.1);">
+                             style="transform: scale(1.05);">
 
                         <!-- Gradient na wierzchu dla spójności z resztą strony -->
                         <div class="absolute inset-0 bg-gradient-to-t from-[#83977C]/30 to-transparent pointer-events-none"></div>
-
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6 text-center md:text-left">
@@ -843,100 +865,94 @@
         }
     });
 
-    // UNIWERSALNY SKRYPT PARALAKSY (OBSŁUGUJE WIELE ELEMENTÓW)
+    // UNIWERSALNY SKRYPT PARALAKSY (POPRAWIONY DLA WĄSKICH OBRAZÓW)
     (function () {
-        // Lista ID elementów, które mają mieć efekt paralaksy
-        const parallaxIds = ['lesny-dwor-parallax', 'photo-3d', 'poprawiny-parallax'];
+        const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+        if (isMobile) return; // Wyłączamy paralaksę na urządzeniach dotykowych
 
-        // Tablica przechowująca obiekty z danymi dla każdego kontenera
+        const parallaxIds = ['photo-3d', 'poprawiny-parallax', 'lesny-dwor-parallax'];
         const instances = [];
 
-        // 1. Inicjalizacja instancji
         parallaxIds.forEach(id => {
             const container = document.getElementById(id);
             if (!container) return;
+            const layers = Array.from(container.querySelectorAll('img'));
+            if (layers.length === 0) return;
 
             instances.push({
-                container: container,
-                layers: Array.from(container.querySelectorAll('img')),
-                rect: container.getBoundingClientRect(), // Cache pozycji
-                tiltX: 0, tiltY: 0, scrollFactor: 0,     // Aktualne wartości
-                targetTiltX: 0, targetTiltY: 0, targetScrollFactor: 0 // Docelowe wartości
+                container,
+                layers,
+                tiltX: 0, tiltY: 0, scrollFactor: 0,
+                targetTiltX: 0, targetTiltY: 0, targetScrollFactor: 0
             });
         });
 
         if (instances.length === 0) return;
 
-        // 2. Główna pętla animacji (requestAnimationFrame)
         function updateTransforms() {
             instances.forEach(item => {
-                // Interpolacja (wygładzanie ruchu) - "lerp"
-                // 0.1 to prędkość wygładzania (im mniej, tym bardziej "pływa")
-                item.tiltX += (item.targetTiltX - item.tiltX) * 0.1;
-                item.tiltY += (item.targetTiltY - item.tiltY) * 0.1;
-                item.scrollFactor += (item.targetScrollFactor - item.scrollFactor) * 0.1;
+                // płynne dążenie do targetów
+                item.tiltX += (item.targetTiltX - item.tiltX) * 0.12;
+                item.tiltY += (item.targetTiltY - item.tiltY) * 0.12;
+                item.scrollFactor += (item.targetScrollFactor - item.scrollFactor) * 0.12;
+
+                const rect = item.container.getBoundingClientRect();
+                const aspect = rect.width / rect.height;
+
+                // dla wąskich kontenerów zmniejszamy efekt poziomy
+                const horizScaleFactor = aspect < 1.4 ? 0.6 : 1.0; // 60% efektu gdy wąsko
+                const baseScale = aspect < 1.2 ? 1.18 : 1.05; // więcej oversize dla ekstremalnie wąskich
 
                 item.layers.forEach(layer => {
-                    const depth = parseFloat(layer.dataset.depth || 0);
-                    // Obliczenia przesunięcia
-                    // Scroll działa w osi Y
-                    const tyScroll = item.scrollFactor * depth * -50;
-                    // Myszka działa w osiach X i Y
-                    const txMouse = item.tiltX * depth * 25;
-                    const tyMouse = item.tiltY * depth * 25;
-
-                    // Ważne: zachowujemy scale(1.1), które dodaliśmy w HTML
-                    layer.style.transform = `scale(1.1) translate3d(${txMouse}px, ${tyScroll + tyMouse}px, 0)`;
+                    const depth = parseFloat(layer.dataset.depth || 0.3);
+                    // scroll przesuwa głównie w pionie, a my ograniczamy poziome przesunięcie dla wąskich widoków
+                    const tyScroll = item.scrollFactor * depth * -40;
+                    const txMouse = item.tiltX * depth * 25 * horizScaleFactor;
+                    const tyMouse = item.tiltY * depth * 18; // mniejszy wpływ Y na głębię na wąskich
+                    // najpierw translate, potem scale — zapewnia stabilne krawędzie
+                    layer.style.transform = `translate3d(${txMouse}px, ${tyScroll + tyMouse}px, 0) scale(${baseScale})`;
                 });
             });
 
             requestAnimationFrame(updateTransforms);
         }
 
-        // 3. Obsługa Scrolla
         function handleScroll() {
             const viewportH = window.innerHeight || document.documentElement.clientHeight;
             const screenCenter = viewportH / 2;
 
             instances.forEach(item => {
-                // Aktualizujemy rect tylko jeśli to konieczne (tutaj uproszczenie: pobieramy przy scrollu)
-                // Dla super wydajności można to robić tylko przy resize, ale przy lazy-loadingu lepiej tu.
                 const rect = item.container.getBoundingClientRect();
                 const centerY = rect.top + rect.height / 2;
 
-                // Czy element jest widoczny w oknie? Jeśli nie, nie liczmy (opcjonalna optymalizacja)
-                if (rect.bottom < 0 || rect.top > viewportH) return;
+                if (rect.bottom < 0 || rect.top > viewportH) {
+                    item.targetScrollFactor = 0;
+                    return;
+                }
 
-                // Obliczamy pozycję względem środka ekranu (-1 góra, 1 dół)
                 item.targetScrollFactor = (centerY - screenCenter) / screenCenter;
             });
         }
 
-        // 4. Obsługa Myszki (Uniwersalna dla wszystkich kontenerów)
         function handleMouseMove(e) {
-            // Sprawdzamy, nad którym kontenerem jest myszka
             instances.forEach(item => {
                 const rect = item.container.getBoundingClientRect();
-
-                // Sprawdź czy kursor jest w obrębie tego kontenera
                 if (e.clientX >= rect.left && e.clientX <= rect.right &&
                     e.clientY >= rect.top && e.clientY <= rect.bottom) {
 
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
 
-                    // Normalizacja -1 do 1
+                    // normalizowane do -1..1
                     item.targetTiltX = (x / rect.width - 0.5) * 2;
                     item.targetTiltY = (y / rect.height - 0.5) * 2;
                 } else {
-                    // Jeśli myszka wyszła poza kontener, wracamy do 0
                     item.targetTiltX = 0;
                     item.targetTiltY = 0;
                 }
             });
         }
 
-        // Resetowanie przy wyjechaniu myszką z okna
         function handleMouseLeave() {
             instances.forEach(item => {
                 item.targetTiltX = 0;
@@ -944,55 +960,17 @@
             });
         }
 
-        // Listenery
         window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('resize', handleScroll); // Przeliczenie pozycji przy zmianie okna
+        window.addEventListener('resize', handleScroll);
 
         if (window.matchMedia('(hover: hover)').matches) {
             window.addEventListener('mousemove', handleMouseMove);
             window.addEventListener('mouseout', handleMouseLeave);
         }
 
-        // Start
+        // inicjalne ustawienia i pętla animacji
         handleScroll();
         updateTransforms();
-    })();
-
-    // Mobile Scroll Zoom dla sekcji Prezenty
-    (function() {
-        const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-
-        if (!isMobile) return; // Tylko dla mobile
-
-        const giftCards = document.querySelectorAll('.scroll-trigger-zoom');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const card = entry.target;
-                const img = card.querySelector('img');
-                const h3 = card.querySelector('h3');
-                const p = card.querySelector('p');
-
-                if (entry.isIntersecting) {
-                    // Powiększ gdy karta jest w ~środku viewportu
-                    card.style.animation = 'scrollZoomIn 0.6s ease-out forwards';
-                    img.classList.add('scale-125');
-                    h3.classList.add('text-xl', 'scroll-hover:text-xl');
-                    p.classList.add('text-lg', 'scroll-hover:text-lg', 'leading-loose');
-                } else {
-                    // Zmniejsz gdy wychodzi z viewportu
-                    card.style.animation = 'scrollZoomOut 0.4s ease-in forwards';
-                    img.classList.remove('scale-125');
-                    h3.classList.remove('text-xl', 'scroll-hover:text-xl');
-                    p.classList.remove('text-lg', 'scroll-hover:text-lg', 'leading-loose');
-                }
-            });
-        }, {
-            threshold: 0.4, // Trigger gdy 40% karty widoczne
-            rootMargin: '-10% 0px -20% 0px'
-        });
-
-        giftCards.forEach(card => observer.observe(card));
     })();
 </script>
 </body>

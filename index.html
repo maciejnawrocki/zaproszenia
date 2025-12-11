@@ -867,8 +867,12 @@
 
     // UNIWERSALNY SKRYPT PARALAKSY (POPRAWIONY DLA WĄSKICH OBRAZÓW)
     (function () {
-        const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-        if (isMobile) return; // Wyłączamy paralaksę na urządzeniach dotykowych
+        const isTouch = window.matchMedia("(pointer: coarse)").matches;
+        const hasHover = window.matchMedia("(hover: hover)").matches;
+
+        // Enable scroll parallax everywhere
+        // Enable mouse-tilt only on desktops
+        const enableTilt = hasHover && !isTouch;
 
         const parallaxIds = ['photo-3d', 'poprawiny-parallax', 'lesny-dwor-parallax'];
         const instances = [];
@@ -963,7 +967,7 @@
         window.addEventListener('scroll', handleScroll, { passive: true });
         window.addEventListener('resize', handleScroll);
 
-        if (window.matchMedia('(hover: hover)').matches) {
+        if (enableTilt) {
             window.addEventListener('mousemove', handleMouseMove);
             window.addEventListener('mouseout', handleMouseLeave);
         }
